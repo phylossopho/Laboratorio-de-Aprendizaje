@@ -1,0 +1,20 @@
+/* ==========================================================================
+   RESPONSIVE — Tablet (max-width: 900px)
+   ========================================================================== */
+
+@media (max-width: 900px) {
+    .main-area {
+        padding-left: 22px;
+        padding-right: 22px;
+    }
+
+    .word-display .focal,
+    .word-display .pointer {
+        font-size: calc(4rem * var(--font-scale));
+    }
+
+    .slider-group { min-width: 330px; }
+    .slider-group input[type="range"] { width: 150px; }
+
+    .home-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

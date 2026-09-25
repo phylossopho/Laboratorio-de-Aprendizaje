@@ -1,0 +1,26 @@
+/* ==========================================================================
+   TYPOGRAPHY — reglas de fuentes y pesos
+   ========================================================================== */
+
+.font-display {
+    font-family: 'Sarpanch', 'Trebuchet MS', Arial, sans-serif;
+    font-weight: 700;
+}
+
+.font-body {
+    font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.text-muted { color: var(--text-muted); }
+.text-secondary { color: var(--text-secondary); }
+.text-primary { color: var(--text-primary); }
+
+.text-center { text-align: center; }
+.text-balance { text-wrap: balance; }
+
+.font-numeric { font-variant-numeric: tabular-nums; }
+
+.weight-medium { font-weight: 500; }
+.weight-semibold { font-weight: 650; }
+.weight-bold { font-weight: 750; }
+.weight-heavy { font-weight: 800; }

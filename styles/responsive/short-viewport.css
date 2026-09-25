@@ -1,0 +1,94 @@
+/* ==========================================================================
+   RESPONSIVE — Viewports de poca altura (DevTools abierto, móvil horizontal)
+   ========================================================================== */
+
+@media (max-height: 700px) {
+    .modal {
+        max-height: 96dvh;
+        padding: 16px 20px;
+    }
+
+    .modal-title,
+    .modal h2 {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+    }
+
+    .modal-section {
+        margin-bottom: 12px;
+    }
+
+    .modal-section > label {
+        font-size: 0.82rem;
+        margin-bottom: 6px;
+    }
+
+    .modal textarea {
+        min-height: 90px;
+        padding: 10px 12px;
+    }
+
+    .modal-footer {
+        padding-top: 4px;
+    }
+
+    .modal-header {
+        margin-bottom: 14px;
+    }
+
+    .modal-settings-header {
+        padding: 14px 20px 12px;
+    }
+
+    .modal-settings-body {
+        padding: 16px 20px 18px;
+    }
+
+    .settings-modal {
+        gap: 16px;
+    }
+
+    .settings-section {
+        padding-bottom: 14px;
+    }
+}
+
+@media (max-height: 500px) {
+    .modal {
+        max-height: 98dvh;
+        padding: 12px 14px;
+        border-radius: 14px;
+    }
+
+    .modal-title,
+    .modal h2 {
+        font-size: 0.98rem;
+        margin-bottom: 8px;
+    }
+
+    .modal-section {
+        margin-bottom: 8px;
+    }
+
+    .modal textarea {
+        min-height: 60px;
+        font-size: 0.85rem;
+    }
+
+    .modal-footer {
+        position: sticky;
+        bottom: 0;
+        background: linear-gradient(180deg, transparent, var(--modal-bg) 30%);
+        padding: 8px 0 0;
+    }
+
+    .font-opt {
+        min-height: 40px;
+        padding: 4px 8px;
+        font-size: 0.72rem;
+    }
+
+    .option-icon {
+        font-size: 0.85rem;
+    }
+}

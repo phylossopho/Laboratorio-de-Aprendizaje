@@ -1,0 +1,214 @@
+/* ==========================================================================
+   LIBRARY — pantalla de la categoría Textos y portadas generadas
+   ========================================================================== */
+
+.library-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: clamp(18px, 3vh, 28px) clamp(20px, 4vw, 48px) 0;
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   FAB — botón flotante de añadir
+   -------------------------------------------------------------------------- */
+
+.fab {
+    position: fixed;
+    right: clamp(16px, 4vw, 28px);
+    bottom: clamp(16px, 4vh, 28px);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    background: var(--accent-primary);
+    color: var(--accent-text);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+    transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
+    -webkit-tap-highlight-color: transparent;
+    z-index: 50;
+}
+
+.fab:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
+}
+
+.fab:active {
+    transform: translateY(0) scale(0.94);
+}
+
+/* --------------------------------------------------------------------------
+   Índice de capítulos
+   -------------------------------------------------------------------------- */
+
+.chapters-intro {
+    margin: 0 auto 20px;
+    max-width: 640px;
+    padding: 0 20px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    text-align: center;
+}
+
+.chapters-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 640px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+}
+
+.chapters-list::-webkit-scrollbar { width: 8px; }
+.chapters-list::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 99px;
+}
+
+.chapter-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+    transition: transform .15s ease, border-color .15s ease, background-color .15s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.chapter-item:hover {
+    transform: translateY(-1px);
+    background: var(--bg-card-hover);
+    border-color: var(--border-strong);
+}
+
+.chapter-item:active { transform: scale(0.99); }
+
+.chapter-status {
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 750;
+    flex-shrink: 0;
+}
+
+.chapter-status-done {
+    background: color-mix(in srgb, var(--accent-primary) 25%, transparent);
+    color: var(--accent-primary);
+}
+
+.chapter-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+    min-width: 0;
+}
+
+.chapter-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chapter-meta {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   Modal de capítulos detectados
+   -------------------------------------------------------------------------- */
+
+.chapters-modal-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 50vh;
+    overflow-y: auto;
+    padding: 0 0 12px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+}
+
+.chapters-modal-list::-webkit-scrollbar { width: 8px; }
+.chapters-modal-list::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 99px;
+}
+
+.chapter-modal-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--bg-card);
+}
+
+.chapter-modal-item input[type="text"] {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    color: var(--text-primary);
+    font: inherit;
+    outline: none;
+}
+
+.chapter-modal-remove {
+    width: 28px;
+    height: 28px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+    transition: background-color .15s ease, color .15s ease;
+}
+
+.chapter-modal-remove:hover {
+    background: rgba(255,255,255,0.06);
+    color: var(--text-primary);
+}
+
+@media (max-width: 640px) {
+    .library-header {
+        padding: 14px 14px 0;
+    }
+}

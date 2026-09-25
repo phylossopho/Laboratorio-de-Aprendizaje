@@ -1,0 +1,91 @@
+/* ==========================================================================
+   CATEGORY — pantalla intermedia con tarjetas de módulos
+   ========================================================================== */
+
+.category-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 140;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-primary);
+    background-image: var(--noise-light);
+    background-size: 180px 180px;
+    background-blend-mode: soft-light;
+    color: var(--text-primary);
+    overflow: hidden;
+}
+
+.category-screen.hidden { display: none !important; }
+
+.category-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px clamp(20px, 4vw, 48px);
+    border-bottom: 1px solid var(--border-color);
+    background: color-mix(in srgb, var(--bg-secondary) 78%, transparent);
+    backdrop-filter: blur(14px) saturate(0.85);
+    -webkit-backdrop-filter: blur(14px) saturate(0.85);
+    flex-shrink: 0;
+}
+
+.library-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: clamp(18px, 3vh, 28px) clamp(20px, 4vw, 48px) 0;
+    flex-shrink: 0;
+}
+
+.category-back {
+    padding: 8px 14px;
+    white-space: nowrap;
+}
+
+.category-title {
+    margin: 0;
+    font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+    font-weight: 750;
+    flex: 1;
+    color: var(--text-primary);
+}
+
+.category-add-top {
+    padding: 8px 16px;
+    white-space: nowrap;
+}
+
+.category-screen .home-grid {
+    margin: 0 auto;
+    padding: clamp(24px, 4vh, 48px) clamp(20px, 4vw, 48px);
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    max-width: 1280px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+}
+
+.category-screen .home-grid::-webkit-scrollbar { width: 8px; }
+.category-screen .home-grid::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 99px;
+}
+
+.category-empty {
+    margin: 60px auto 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    text-align: center;
+    max-width: 500px;
+    padding: 0 20px;
+    line-height: 1.55;
+}
+
+.category-add {
+    align-self: center;
+    margin: 0 auto 24px;
+    padding: 10px 20px;
+}

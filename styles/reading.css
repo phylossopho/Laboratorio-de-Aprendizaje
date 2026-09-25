@@ -1,0 +1,248 @@
+/* ==========================================================================
+   READING — área de lectura, texto focal y modo galáctico
+   ========================================================================== */
+
+.main-area {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(28px, 5vh, 56px) clamp(18px, 5vw, 72px);
+    padding-bottom: 128px;
+}
+
+.word-display {
+    width: min(1300px, 100%);
+    min-height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    isolation: isolate;
+}
+
+.word-display.chunk-mode { width: min(1600px, 100%); }
+
+.word-display::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 18%;
+    width: min(440px, 65%);
+    height: 2px;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent-primary) 18%, transparent), transparent);
+    opacity: 0.65;
+    pointer-events: none;
+}
+
+.word-display .focal {
+    font-size: calc(4.6rem * var(--font-scale));
+    line-height: 1.08;
+    font-weight: 600;
+    letter-spacing: 0.012em;
+    color: var(--focal-color);
+    text-shadow: 0 0 22px var(--reading-halo);
+    text-wrap: balance;
+}
+
+.word-display .pointer {
+    font-size: calc(4.6rem * var(--font-scale));
+    line-height: 1.08;
+    font-weight: 600;
+    color: var(--pointer-color);
+    text-shadow: 0 0 22px var(--reading-halo);
+}
+
+.word-display .context,
+.word-display .context-extra {
+    font-size: calc(1.8rem * var(--font-scale));
+    color: var(--context-color);
+}
+
+.word-display .context {
+    font-size: calc(2.3rem * var(--font-scale));
+    line-height: 1.35;
+}
+
+.word-display.chunk-mode { flex-direction: column; gap: 18px; }
+
+.word-display.chunk-mode .chunk-box {
+    padding: 18px 28px;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.025);
+    box-shadow: 0 14px 34px rgba(0,0,0,0.08);
+    word-spacing: 0.25em;
+    max-width: 100%;
+}
+
+.word-display.chunk-mode .chunk-word {
+    font-size: calc(3.4rem * var(--font-scale));
+    line-height: 1.22;
+    font-weight: 560;
+    color: var(--chunk-color);
+    text-shadow: 0 0 22px var(--reading-halo);
+}
+
+.word-display.chunk-mode .chunk-word + .chunk-word { margin-left: 0.15em; }
+
+.line-display {
+    width: min(760px, 92%);
+    color: var(--line-color);
+    font-size: calc(1.9rem * var(--font-scale));
+    line-height: 1.55;
+    font-weight: 520;
+    letter-spacing: 0.01em;
+    text-shadow: 0 0 22px var(--reading-halo);
+    text-align: center;
+    text-wrap: balance;
+}
+
+.reading-title {
+    color: var(--accent-primary);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.reading-subtitle {
+    color: var(--accent-primary);
+    font-weight: 600;
+    opacity: 0.85;
+}
+
+.focal { border-bottom: 2px solid var(--focal-color); }
+.pointer { color: var(--pointer-color); }
+
+.pause-indicator {
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    transform: translateX(-50%);
+    color: var(--pause-color);
+    background: var(--pause-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    pointer-events: none;
+    animation: fadeIn .22s ease both;
+}
+
+.line-timer-bar {
+    width: min(760px, 80%);
+    height: 4px;
+    margin-top: 28px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.08);
+}
+
+.line-timer-fill {
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--accent-primary);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--accent-primary) 20%, transparent);
+}
+
+/* --------------------------------------------------------------------------
+   MODO GALÁCTICO — paleta fija que ignora el tema activo
+   -------------------------------------------------------------------------- */
+
+body.galactic-bg {
+    background-color: #111a19 !important;
+    background-image: none !important;
+
+    --bg-primary: #111a19;
+    --bg-card: rgba(53, 69, 78, 0.9);
+    --border-color: rgba(211, 224, 226, 0.17);
+    --border-strong: rgba(211, 224, 226, 0.29);
+    --text-primary: #e4ebed;
+    --text-secondary: #b7c5c8;
+    --text-muted: #89989d;
+    --accent-primary: #a9c8c7;
+    --accent-hover: #bfd9d6;
+    --accent-text: #253438;
+    --btn-primary-bg: #a9c8c7;
+    --btn-primary-text: #253438;
+    --btn-secondary-bg: rgba(231, 240, 241, 0.08);
+    --btn-secondary-text: #d4dfe1;
+    --modal-bg: rgba(42, 56, 63, .98);
+    --modal-border: rgba(211, 224, 226, .22);
+    --galactic-text: #e5d99b;
+    --galactic-content-bg: #111a19;
+    --countdown-text: #f2dd9e;
+    --countdown-shadow: #d3a854;
+    --focal-color: #f1f8f9;
+    --pointer-color: #c5dedd;
+    --context-color: #8f9ea1;
+    --chunk-color: #dbe6e8;
+    --line-color: #e5eced;
+    --reading-halo: rgba(240, 248, 250, 0.16);
+}
+
+.word-display.galactic-display {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    background: var(--galactic-content-bg);
+    padding: 0;
+    z-index: 50;
+    perspective: 4500px;
+    perspective-origin: 50% 50%;
+}
+
+.word-display.galactic-display::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 35%;
+    background: linear-gradient(
+        to bottom,
+        var(--galactic-content-bg) 0%,
+        color-mix(in srgb, var(--galactic-content-bg) 85%, transparent) 40%,
+        transparent 100%
+    );
+    pointer-events: none;
+    z-index: 2;
+}
+
+.word-display.galactic-display::after { display: none; }
+
+.galactic-scroller {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    will-change: transform;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+
+.galactic-content {
+    font-size: calc(3.6rem * var(--font-scale));
+    text-align: center;
+    line-height: 1.55;
+    letter-spacing: 2px;
+    color: var(--galactic-text);
+    font-family: 'Sarpanch', 'Trebuchet MS', Arial, sans-serif;
+    font-weight: 700;
+    padding: 0 3vw;
+    width: 90vw;
+    margin: 0 auto;
+}

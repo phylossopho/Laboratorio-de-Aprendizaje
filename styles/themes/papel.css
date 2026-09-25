@@ -1,0 +1,90 @@
+/* ==========================================================================
+   TEMA: PAPEL
+   Claro, tonos crema.
+   ========================================================================== */
+
+body.theme-light {
+    --bg-primary: #e7e0d4;
+    --bg-secondary: rgba(239, 233, 223, 0.9);
+    --bg-tertiary: #ded5c7;
+    --bg-card: rgba(245, 240, 232, 0.92);
+    --bg-card-hover: #f0e9de;
+    --bg-card-active: #e7ddce;
+
+    --border-color: rgba(77, 72, 64, 0.14);
+    --border-strong: rgba(77, 72, 64, 0.24);
+    --border-focus: #7f9d91;
+
+    --text-primary: #3d403c;
+    --text-secondary: #666a64;
+    --text-muted: #858982;
+
+    --accent-primary: #708f83;
+    --accent-hover: #607e73;
+    --accent-text: #f7f3eb;
+
+    --btn-primary-bg: #708f83;
+    --btn-primary-text: #f7f3eb;
+    --btn-secondary-bg: rgba(72, 79, 73, 0.065);
+    --btn-secondary-text: #50554f;
+    --btn-disabled-opacity: 0.34;
+
+    --input-bg: rgba(255, 255, 255, 0.42);
+    --input-border: rgba(77, 72, 64, 0.18);
+    --input-text: #3d403c;
+
+    --modal-bg: rgba(246, 242, 235, 0.98);
+    --modal-border: rgba(77, 72, 64, 0.18);
+
+    --slider-track: #b6b0a4;
+    --badge-color: #5f796f;
+
+    --pause-color: #5c6f66;
+    --pause-bg: rgba(112, 143, 131, 0.11);
+    --settings-btn-hover: rgba(112, 143, 131, 0.1);
+    --settings-btn-text: #666a64;
+
+    --sample-btn-bg: rgba(72, 79, 73, 0.055);
+    --sample-btn-border: rgba(77, 72, 64, 0.15);
+    --sample-btn-text: #50554f;
+    --sample-btn-hover-border: #708f83;
+    --sample-btn-hover-text: #38483f;
+
+    --saved-text-bg: rgba(72, 79, 73, 0.055);
+    --saved-text-border: rgba(77, 72, 64, 0.15);
+    --saved-text-hover-bg: rgba(112, 143, 131, 0.09);
+    --saved-text-hover-border: #708f83;
+    --saved-text-title: #424640;
+    --saved-text-preview: #777a74;
+
+    --btn-use-bg: #708f83;
+    --btn-use-text: #f7f3eb;
+    --btn-edit-bg: #8a98a0;
+    --btn-edit-text: #ffffff;
+    --btn-delete-bg: #b85c50;
+    --btn-delete-text: #ffffff;
+    --btn-cancel-bg: #8a7a68;
+    --btn-cancel-text: #f7f3eb;
+    --btn-save-bg: #708f83;
+    --btn-save-text: #f7f3eb;
+
+    --edit-form-input-bg: rgba(255, 255, 255, 0.5);
+    --edit-form-input-border: rgba(77, 72, 64, 0.18);
+    --edit-form-input-text: #3d403c;
+    --edit-form-input-focus: #708f83;
+
+    --galactic-text: #8b7c3c;
+    --galactic-content-bg: #242826;
+
+    --countdown-text: #4a3520;
+    --countdown-shadow: #2a1e10;
+
+    --focal-color: #2e4237;
+    --pointer-color: #5f8174;
+    --context-color: #9aa19a;
+    --chunk-color: #3c4a44;
+    --line-color: #2f342f;
+    --reading-halo: rgba(0, 0, 0, 0.06);
+
+    --feedback-ripple: rgba(112, 143, 131, 0.3);
+}

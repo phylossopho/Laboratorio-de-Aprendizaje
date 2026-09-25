@@ -1,0 +1,460 @@
+/* ==========================================================================
+   GAMES — modal de minijuegos y pantalla de Schulte
+   ========================================================================== */
+
+.modal-games {
+    width: min(820px, 94vw);
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.games-intro {
+    margin: 0 0 22px;
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.game-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--bg-card);
+    transition: transform .16s ease, border-color .16s ease, background .16s ease;
+}
+
+.game-card:hover {
+    transform: translateY(-2px);
+    background: var(--bg-card-hover);
+    border-color: var(--border-strong);
+}
+
+.game-card-icon {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    background: rgba(255,255,255,0.06);
+    color: var(--accent-primary);
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.game-card-name {
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 750;
+    line-height: 1.2;
+}
+
+.game-card-desc {
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    line-height: 1.45;
+    flex: 1;
+}
+
+.game-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 2px;
+}
+
+.game-tag {
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.055);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.68rem;
+    font-weight: 650;
+    letter-spacing: 0.02em;
+}
+
+.game-card-btn {
+    align-self: stretch;
+    margin-top: 4px;
+    min-height: 38px;
+    font-size: 0.86rem;
+}
+
+.game-card-btn:disabled {
+    opacity: 0.42;
+    cursor: not-allowed;
+}
+
+.game-card-soon { opacity: 0.72; }
+
+.game-card-soon-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--accent-primary) 22%, transparent);
+    color: var(--accent-primary);
+    font-size: 0.66rem;
+    font-weight: 750;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   PANTALLA DEL JUEGO
+   -------------------------------------------------------------------------- */
+
+.game-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 22px 20px;
+    background-color: var(--bg-primary);
+    background-image: var(--noise-light);
+    background-size: 180px 180px;
+    background-blend-mode: soft-light;
+    color: var(--text-primary);
+    overflow-y: auto;
+}
+
+.game-screen.hidden { display: none !important; }
+
+.game-screen-header {
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.game-back-btn {
+    padding: 8px 16px;
+    white-space: nowrap;
+}
+
+.game-screen-title {
+    margin: 0;
+    font-size: 1.15rem;
+    color: var(--text-primary);
+}
+
+/* --------------------------------------------------------------------------
+   SCHULTE — dificultad
+   -------------------------------------------------------------------------- */
+
+.schulte-intro {
+    max-width: 520px;
+    margin: 0 0 28px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.schulte-difficulty-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    width: 100%;
+    max-width: 640px;
+}
+
+.schulte-difficulty-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 22px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    cursor: pointer;
+    font: inherit;
+    text-align: center;
+    transition: transform .16s ease, border-color .16s ease, background .16s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.schulte-difficulty-btn:hover {
+    transform: translateY(-2px);
+    background: var(--bg-card-hover);
+    border-color: var(--border-strong);
+}
+
+.schulte-difficulty-btn:active { transform: translateY(0) scale(0.98); }
+
+.schulte-difficulty-label { font-size: 1.1rem; font-weight: 750; }
+.schulte-difficulty-sub { color: var(--text-muted); font-size: 0.8rem; }
+
+.schulte-difficulty-best {
+    margin-top: 6px;
+    color: var(--accent-primary);
+    font-size: 0.75rem;
+    font-weight: 650;
+    font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   SCHULTE — partida
+   -------------------------------------------------------------------------- */
+
+.schulte-prompt {
+    min-height: 1.2em;
+    margin: 0 0 16px;
+    font-size: clamp(3rem, 9vw, 5rem);
+    font-weight: 800;
+    line-height: 1;
+    color: var(--accent-primary);
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+}
+
+.schulte-counter {
+    margin: -6px 0 14px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 650;
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+}
+
+.schulte-grid-area {
+    position: relative;
+    width: min(580px, 92vw, calc(100vh - 280px));
+    max-width: 92vw;
+    aspect-ratio: 1 / 1;
+    margin-bottom: 12px;
+}
+
+.schulte-grid {
+    display: grid;
+    gap: 14px;
+    width: 100%;
+    height: 100%;
+}
+
+.schulte-cell {
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: clamp(1.15rem, 3.4vw, 1.75rem);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: background .15s ease, color .15s ease, border-color .15s ease, transform .1s ease, opacity .35s ease;
+}
+
+.schulte-cell:hover:not(:disabled) {
+    background: var(--bg-card-hover);
+    border-color: var(--border-strong);
+}
+
+.schulte-cell:active:not(:disabled) { transform: scale(0.96); }
+.schulte-cell:disabled { cursor: default; }
+
+.schulte-cell.schulte-correct {
+    background: var(--accent-primary);
+    color: var(--accent-text);
+    border-color: var(--accent-primary);
+    opacity: 0.35;
+    animation: schulteCellPop .3s ease-out both;
+}
+
+.schulte-center-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent-primary);
+    border: 3px solid var(--bg-primary);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 3;
+    opacity: 1;
+    box-shadow: 0 0 12px color-mix(in srgb, var(--accent-primary) 70%, transparent);
+}
+
+.schulte-progress-bar {
+    width: min(580px, 92vw);
+    height: 6px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.07);
+    margin-bottom: 6px;
+}
+
+.schulte-progress-fill {
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--accent-primary);
+    transition: width .28s cubic-bezier(.2, .8, .2, 1);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--accent-primary) 35%, transparent);
+}
+
+.schulte-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.schulte-sound-btn { font-size: 1rem; }
+
+/* --------------------------------------------------------------------------
+   SCHULTE — pausa con blur
+   -------------------------------------------------------------------------- */
+
+.schulte-pause-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 24px;
+    background: color-mix(in srgb, var(--bg-primary) 65%, transparent);
+    backdrop-filter: blur(14px) saturate(0.9);
+    -webkit-backdrop-filter: blur(14px) saturate(0.9);
+    cursor: pointer;
+    animation: fadeIn .2s ease both;
+}
+
+.schulte-pause-overlay.hidden { display: none !important; }
+
+.schulte-pause-text {
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+    font-weight: 800;
+    color: var(--accent-primary);
+    letter-spacing: 0.08em;
+}
+
+.schulte-pause-hint {
+    color: var(--text-secondary);
+    font-size: 0.86rem;
+    letter-spacing: 0.02em;
+}
+
+/* --------------------------------------------------------------------------
+   SCHULTE — instrucciones previas
+   -------------------------------------------------------------------------- */
+
+.schulte-instructions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    max-width: 480px;
+    text-align: center;
+    margin: 32px auto 0;
+    padding: 0 20px;
+}
+
+.schulte-instructions-level {
+    color: var(--accent-primary);
+    font-size: 0.88rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.schulte-instructions-title {
+    margin: 0;
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.schulte-instructions-text {
+    color: var(--text-secondary);
+    font-size: 0.98rem;
+    line-height: 1.6;
+}
+
+.schulte-instructions-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* --------------------------------------------------------------------------
+   SCHULTE — pantalla de fin
+   -------------------------------------------------------------------------- */
+
+.schulte-finish {
+    position: fixed;
+    inset: 0;
+    z-index: 400;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 24px;
+    background: rgba(14, 20, 18, 0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    animation: modalOverlayIn .22s ease both;
+}
+
+.schulte-finish-title {
+    font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+    font-weight: 800;
+    color: var(--accent-primary);
+}
+
+.schulte-finish-msg {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    text-align: center;
+    max-width: 420px;
+    line-height: 1.5;
+}
+
+.schulte-finish-progress {
+    color: var(--accent-primary);
+    font-size: 0.88rem;
+    font-weight: 650;
+    letter-spacing: 0.02em;
+}
+
+.schulte-finish-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 14px;
+}

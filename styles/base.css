@@ -1,0 +1,116 @@
+/* ==========================================================================
+   BASE — reset, variables de fallback, tipografía y fondo general
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Sarpanch:wght@400;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --font-scale: 1;
+
+    --bg-primary: #24312d;
+    --bg-secondary: rgba(39, 53, 48, 0.88);
+    --bg-tertiary: #30413a;
+    --bg-card: rgba(48, 65, 58, 0.88);
+    --bg-card-hover: #3b4d45;
+    --bg-card-active: #40564c;
+
+    --border-color: rgba(208, 220, 205, 0.16);
+    --border-strong: rgba(208, 220, 205, 0.28);
+    --border-focus: #a9c6a9;
+
+    --text-primary: #e4e9df;
+    --text-secondary: #b6c0b5;
+    --text-muted: #879388;
+
+    --accent-primary: #b7cda9;
+    --accent-hover: #c9dbbc;
+    --accent-text: #24312d;
+
+    --btn-primary-bg: #b7cda9;
+    --btn-primary-text: #24312d;
+    --btn-secondary-bg: rgba(231, 237, 226, 0.08);
+    --btn-secondary-text: #d5ded1;
+    --btn-disabled-opacity: 0.34;
+
+    --input-bg: rgba(19, 28, 25, 0.76);
+    --input-border: rgba(208, 220, 205, 0.2);
+    --input-text: #e4e9df;
+
+    --modal-bg: rgba(38, 51, 46, 0.98);
+    --modal-border: rgba(208, 220, 205, 0.22);
+
+    --slider-track: #56665d;
+    --badge-color: #c7d8bb;
+
+    --pause-color: #d8e4cf;
+    --pause-bg: rgba(183, 205, 169, 0.12);
+
+    --galactic-text: #e5d99b;
+    --galactic-content-bg: #111a19;
+
+    --countdown-text: #efd597;
+    --countdown-shadow: #c99a4a;
+
+    --focal-color: #f0f6e6;
+    --pointer-color: #d0e2bd;
+    --context-color: #94a094;
+    --chunk-color: #dfe9d2;
+    --line-color: #e8eedb;
+    --reading-halo: rgba(240, 246, 230, 0.16);
+
+    --feedback-ripple: rgba(183, 205, 169, 0.35);
+
+    --noise-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.11'/%3E%3C/svg%3E");
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-primary);
+    background-image: var(--noise-light);
+    background-size: 180px 180px;
+    background-blend-mode: soft-light;
+    color: var(--text-primary);
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+        radial-gradient(circle at 50% 45%, rgba(220, 235, 218, 0.035), transparent 48%),
+        linear-gradient(180deg, rgba(0,0,0,0.05), transparent 24%, rgba(0,0,0,0.08));
+}
+
+body.font-small { --font-scale: 0.86; }
+body.font-large { --font-scale: 1.22; }
+
+button, input, textarea, select { font: inherit; }
+
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--accent-primary) 45%, transparent);
+    outline-offset: 2px;
+}

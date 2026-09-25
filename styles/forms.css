@@ -1,0 +1,46 @@
+/* ==========================================================================
+   FORMS — inputs, textareas, selects
+   ========================================================================== */
+
+.input,
+.textarea,
+.select {
+    width: 100%;
+    border: 1px solid var(--input-border);
+    border-radius: 12px;
+    background: var(--input-bg);
+    color: var(--input-text);
+    outline: none;
+    padding: 10px 14px;
+    transition: border-color .16s ease, box-shadow .16s ease;
+}
+
+.textarea {
+    min-height: 190px;
+    padding: 14px 16px;
+    resize: vertical;
+    line-height: 1.5;
+    font-family: inherit;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--border-focus) 12%, transparent);
+}
+
+.file-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--input-border);
+    border-radius: 12px;
+    background: var(--input-bg);
+    color: var(--input-text);
+    outline: none;
+}
+
+.file-input:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--border-focus) 12%, transparent);
+}

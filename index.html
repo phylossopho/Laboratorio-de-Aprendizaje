@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LectoLab</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="styles/themes/pizarron.css">
+    <link rel="stylesheet" href="styles/themes/crepusculo.css">
+    <link rel="stylesheet" href="styles/themes/papel.css">
+
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/utilities.css">
+    <link rel="stylesheet" href="styles/typography.css">
+    <link rel="stylesheet" href="styles/components/cards.css">
+
+    <link rel="stylesheet" href="styles/buttons.css">
+    <link rel="stylesheet" href="styles/forms.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/controls.css">
+
+    <link rel="stylesheet" href="styles/reading.css">
+    <link rel="stylesheet" href="styles/countdown.css">
+
+    <link rel="stylesheet" href="styles/modals.css">
+    <link rel="stylesheet" href="styles/custom-themes.css">
+
+    <link rel="stylesheet" href="styles/home.css">
+    <link rel="stylesheet" href="styles/category.css">
+    <link rel="stylesheet" href="styles/library.css">
+
+    <link rel="stylesheet" href="styles/module-shell.css">
+    <link rel="stylesheet" href="styles/games.css">
+    <link rel="stylesheet" href="styles/feedback.css">
+    <link rel="stylesheet" href="styles/debug.css">
+
+    <link rel="stylesheet" href="styles/responsive/tablet.css">
+    <link rel="stylesheet" href="styles/responsive/mobile.css">
+    <link rel="stylesheet" href="styles/responsive/mobile-narrow.css">
+    <link rel="stylesheet" href="styles/responsive/short-viewport.css">
+</head>
+<body>
+
+    <div class="countdown-number hidden" id="countdown-el"></div>
+
+    <div class="game-screen hidden" id="game-screen"></div>
+
+    <!-- ===== Pantalla de inicio: categorías ===== -->
+    <div class="home-screen" id="home-screen">
+        <header class="home-header">
+            <h1 class="home-title">LectoLab</h1>
+            <div class="home-header-actions">
+                <button class="home-settings-btn"
+                        onclick="openSettings()"
+                        title="Configuración"
+                        aria-label="Abrir configuración">
+                    <span aria-hidden="true">⚙</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="home-body">
+            <p class="home-subtitle">Elige una categoría para empezar.</p>
+            <div class="home-grid" id="categories-grid"></div>
+        </div>
+
+        <footer class="home-footer">
+            LectoLab · Herramientas de lectura y descanso visual
+        </footer>
+    </div>
+
+    <!-- ===== Pantalla de la biblioteca ===== -->
+    <div class="category-screen hidden" id="category-screen">
+        <div class="library-header" id="library-header">
+            <button class="btn btn-secondary category-back" onclick="goBack()">← Volver</button>
+            <h2 class="category-title">Textos</h2>
+        </div>
+        <div class="card-container" id="library-grid"></div>
+        <button class="fab" id="fab-add" onclick="openAddBookModal()" aria-label="Añadir texto" title="Añadir texto">+</button>
+    </div>
+
+    <!-- ===== Área de lectura (motores) ===== -->
+    <div class="main-area hidden" id="main-area">
+        <div class="module-header">
+            <button class="btn btn-secondary module-back" onclick="goBack()">← Volver</button>
+            <h2 class="module-title" id="module-title">Lectura</h2>
+            <div class="module-header-actions" id="module-header-actions"></div>
+        </div>
+
+        <div class="module-body">
+            <div id="module-container">
+                <div class="word-display" id="word-display">
+                    <span>Prepara tu texto y haz clic en Iniciar</span>
+                </div>
+                <div class="line-timer-bar" id="line-timer-bar" style="display:none;">
+                    <div class="line-timer-fill" id="line-timer-fill"></div>
+                </div>
+                <div class="pause-indicator hidden" id="pause-indicator">PAUSADO</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Controles de lectura ===== -->
+    <div class="controls hidden" id="reading-controls" aria-label="Controles de lectura">
+        <div class="control-row">
+            <button class="btn btn-secondary btn-icon control-action"
+                    id="btn-pause"
+                    onclick="togglePause()"
+                    disabled
+                    aria-label="Pausar o continuar"
+                    title="Pausar / continuar">
+                <span id="pause-icon" aria-hidden="true">⏸</span>
+                <span class="sr-only">Pausar / continuar</span>
+            </button>
+
+            <button class="btn btn-secondary btn-icon control-action"
+                    id="btn-reset"
+                    onclick="resetReading()"
+                    aria-label="Reiniciar lectura"
+                    title="Reiniciar lectura">
+                <span aria-hidden="true">↻</span>
+                <span class="sr-only">Reiniciar</span>
+            </button>
+
+            <div class="slider-group" aria-label="Velocidad de lectura">
+                <div class="slider-title">
+                    <span class="slider-icon" aria-hidden="true">⚡</span>
+                    <label for="wpm-slider">Velocidad</label>
+                </div>
+                <button class="btn btn-secondary speed-btn speed-down"
+                        onclick="adjustWPM(-20)"
+                        aria-label="Bajar velocidad"
+                        title="Bajar velocidad">−</button>
+                <input type="range" id="wpm-slider" min="50" max="900" value="250" step="10" oninput="updateWPM()" aria-label="Velocidad en palabras por minuto">
+                <output class="wpm-value" id="wpm-display" aria-label="Velocidad actual">250</output>
+                <button class="btn btn-secondary speed-btn speed-up"
+                        onclick="adjustWPM(20)"
+                        aria-label="Subir velocidad"
+                        title="Subir velocidad">+</button>
+            </div>
+
+            <div class="control-separator" aria-hidden="true"></div>
+
+            <div class="font-size-group" aria-label="Tamaño del texto">
+                <button class="btn btn-secondary speed-btn font-size-down"
+                        onclick="adjustFontSize(-1)"
+                        aria-label="Reducir tamaño de texto"
+                        title="Texto más pequeño">A−</button>
+                <output class="font-size-value" id="font-size-display" aria-label="Tamaño actual">18</output>
+                <button class="btn btn-secondary speed-btn font-size-up"
+                        onclick="adjustFontSize(1)"
+                        aria-label="Aumentar tamaño de texto"
+                        title="Texto más grande">A+</button>
+            </div>
+
+            <div class="chunk-size-group hidden" id="chunk-size-group" aria-label="Palabras por bloque">
+                <span class="chunk-size-label" aria-hidden="true">▤</span>
+                <button class="btn btn-secondary speed-btn"
+                        onclick="adjustChunkSize(-1)"
+                        aria-label="Menos palabras por bloque"
+                        title="Menos palabras">−</button>
+                <output class="chunk-size-value" id="chunk-size-display" aria-label="Palabras por bloque">5</output>
+                <button class="btn btn-secondary speed-btn"
+                        onclick="adjustChunkSize(1)"
+                        aria-label="Más palabras por bloque"
+                        title="Más palabras">+</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Modal: agregar / editar texto ===== -->
+    <div class="modal-overlay hidden" id="book-modal">
+        <div class="modal">
+            <h2 class="modal-title" id="book-modal-title">Agregar texto</h2>
+            <div class="modal-section modal-section-center">
+                <button class="btn btn-secondary btn-load-file" type="button" onclick="document.getElementById('book-file-input').click()">Cargar archivo</button>
+                <input type="file" id="book-file-input" accept=".txt,.md" class="file-input" onchange="loadBookFileText(event)">
+            </div>
+            <p class="modal-or-divider">o crea uno nuevo</p>
+            <div class="modal-section">
+                <label for="book-title-input">Nombre del texto</label>
+                <input type="text" id="book-title-input" placeholder="Ej.: Cien años de soledad" autocomplete="off">
+            </div>
+            <div class="modal-section">
+                <label for="book-content-input">Contenido</label>
+                <textarea id="book-content-input" placeholder="Crea o pega el texto aquí. Usa '# Título' para marcar capítulos."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeBookModal()">Cancelar</button>
+                <button class="btn btn-primary" onclick="saveBookFromModal()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Modal: confirmar capítulos detectados ===== -->
+    <div class="modal-overlay hidden" id="chapters-modal">
+        <div class="modal">
+            <h2 class="modal-title">Capítulos detectados</h2>
+            <p class="chapters-intro">Se encontraron estos capítulos en el texto. Puedes editar los nombres o eliminarlos.</p>
+            <div id="chapters-list-container"></div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeChaptersModal()">Cancelar</button>
+                <button class="btn btn-primary" onclick="confirmChaptersAndSave()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Modal: escoger texto para practicar ===== -->
+    <div class="modal-overlay hidden" id="config-modal">
+        <div class="modal modal--picker">
+            <h2 class="modal-title">Escoger texto para practicar</h2>
+            <div class="modal-section">
+                <div id="text-picker-list" class="text-picker-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Modal: textos (ya no se usa, la categoría tiene su pantalla) ===== -->
+    <div class="modal-overlay hidden" id="texts-modal">
+        <div class="modal modal-texts">
+            <div class="modal-header">
+                <h2 style="margin:0;">Mis textos</h2>
+                <button class="btn btn-secondary" onclick="closeTextsModal()">Cerrar</button>
+            </div>
+            <div id="saved-texts-list"></div>
+        </div>
+    </div>
+
+    <!-- ===== Modal: minijuegos (ya no se usa, la categoría tiene su pantalla) ===== -->
+    <div class="modal-overlay hidden" id="games-modal">
+        <div class="modal modal-games">
+            <div class="modal-settings-header">
+                <h2 style="margin:0;">Minijuegos</h2>
+                <button class="modal-close-x" onclick="closeGamesModal()" aria-label="Cerrar" title="Cerrar">×</button>
+            </div>
+            <div class="modal-settings-body">
+                <p class="games-intro">Ejercicios cortos para descansar la vista.</p>
+                <div class="games-grid" id="games-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Modal: configuración ===== -->
+    <div class="modal-overlay hidden" id="settings-modal">
+        <div class="modal modal-settings">
+            <div class="modal-settings-header">
+                <h2 style="margin:0;">Configuración</h2>
+                <button class="modal-close-x" onclick="closeSettings()" aria-label="Cerrar configuración" title="Cerrar">×</button>
+            </div>
+            <div class="modal-settings-body">
+                <div class="settings-modal">
+
+                    <div class="settings-section">
+                        <div class="settings-section-title">
+                            <span aria-hidden="true">🎨</span>
+                            <span>Tema visual</span>
+                        </div>
+                        <div class="option-grid option-grid-3" id="themes-grid"></div>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="settings-section-title">
+                            <span aria-hidden="true">◆</span>
+                            <span>Temas personalizados</span>
+                            <button class="btn btn-secondary settings-add-btn"
+                                    onclick="openThemeFolderPicker()"
+                                    title="Cargar archivos de tema"
+                                    aria-label="Cargar archivos de tema">+ Añadir</button>
+                        </div>
+                        <div class="option-grid option-grid-3" id="custom-themes-grid"></div>
+
+                        <div class="custom-themes-drop" id="custom-themes-drop">
+                            <div class="custom-themes-drop-icon" aria-hidden="true">↓</div>
+                            <div class="custom-themes-drop-text">
+                                Arrastra aquí tus archivos <code>.css</code><br>
+                                o pulsa <strong>+ Añadir</strong> para seleccionarlos
+                            </div>
+                        </div>
+
+                        <p class="custom-themes-help">
+                            Cada archivo debe contener un bloque <code>body.theme-xxx { ... }</code>.
+                            Opcionalmente, una primera línea con <code>/* @theme-name: Nombre */</code>
+                            y otra con <code>/* @theme-icon: ☀ */</code>.
+                        </p>
+                        <input type="file"
+                               id="theme-folder-input"
+                               multiple
+                               accept=".css,text/css"
+                               style="display:none;">
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="settings-section-title">
+                            <span aria-hidden="true">◫</span>
+                            <span>Posición de controles</span>
+                        </div>
+                        <div class="position-grid">
+                            <button class="font-opt position-option" data-pos="top" onclick="setSliderPos('top')" aria-label="Controles arriba">
+                                <span class="option-icon" aria-hidden="true">↑</span>
+                                <span class="option-label">Arriba</span>
+                            </button>
+                            <button class="font-opt position-option" data-pos="bottom" onclick="setSliderPos('bottom')" aria-label="Controles abajo">
+                                <span class="option-icon" aria-hidden="true">↓</span>
+                                <span class="option-label">Abajo</span>
+                            </button>
+                            <button class="font-opt position-option" data-pos="left" onclick="setSliderPos('left')" aria-label="Controles a la izquierda">
+                                <span class="option-icon" aria-hidden="true">←</span>
+                                <span class="option-label">Izquierda</span>
+                            </button>
+                            <button class="font-opt position-option" data-pos="right" onclick="setSliderPos('right')" aria-label="Controles a la derecha">
+                                <span class="option-icon" aria-hidden="true">→</span>
+                                <span class="option-label">Derecha</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="settings-section-title">
+                            <span aria-hidden="true">◉</span>
+                            <span>Tamaño de controles</span>
+                        </div>
+                        <div class="option-grid option-grid-3">
+                            <button class="font-opt" data-csize="small" onclick="setControlSize('small')">
+                                <span class="option-icon" aria-hidden="true">•</span>
+                                <span class="option-label">Pequeño</span>
+                            </button>
+                            <button class="font-opt" data-csize="medium" onclick="setControlSize('medium')">
+                                <span class="option-icon" aria-hidden="true">●</span>
+                                <span class="option-label">Mediano</span>
+                            </button>
+                            <button class="font-opt" data-csize="large" onclick="setControlSize('large')">
+                                <span class="option-icon" aria-hidden="true">⬤</span>
+                                <span class="option-label">Grande</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="settings-section-title">
+                            <span aria-hidden="true">Aa</span>
+                            <span>Tamaño del texto</span>
+                        </div>
+                        <div class="option-grid option-grid-3">
+                            <button class="font-opt" data-size="small" onclick="setFontSize('small')">
+                                <span class="option-icon" aria-hidden="true">A</span>
+                                <span class="option-label">Pequeño</span>
+                            </button>
+                            <button class="font-opt" data-size="medium" onclick="setFontSize('medium')">
+                                <span class="option-icon" aria-hidden="true">A</span>
+                                <span class="option-label">Mediano</span>
+                            </button>
+                            <button class="font-opt" data-size="large" onclick="setFontSize('large')">
+                                <span class="option-icon option-icon-large" aria-hidden="true">A</span>
+                                <span class="option-label">Grande</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="settings-section settings-speed-section">
+                        <div class="settings-section-title">
+                            <span aria-hidden="true">⚡</span>
+                            <span>Velocidad</span>
+                            <strong><span id="settings-wpm">250</span> WPM</strong>
+                        </div>
+                        <input type="range" id="settings-wpm-slider" min="50" max="900" value="250" step="10" oninput="quickWPMChange(this.value)" aria-label="Velocidad en palabras por minuto">
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="settings-section-title">
+                            <span aria-hidden="true">♪</span>
+                            <span>Sonido de minijuegos</span>
+                        </div>
+                        <div class="option-grid option-grid-3">
+                            <button class="font-opt" data-gsound="off" onclick="setGameSound('off')">
+                                <span class="option-icon" aria-hidden="true">✕</span>
+                                <span class="option-label">Apagado</span>
+                            </button>
+                            <button class="font-opt" data-gsound="soft" onclick="setGameSound('soft')">
+                                <span class="option-icon" aria-hidden="true">◐</span>
+                                <span class="option-label">Suave</span>
+                            </button>
+                            <button class="font-opt" data-gsound="on" onclick="setGameSound('on')">
+                                <span class="option-icon" aria-hidden="true">♪</span>
+                                <span class="option-label">Activado</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Scripts ===== -->
+    <script src="js/core/state.js"></script>
+    <script src="js/core/dom.js"></script>
+    <script src="js/core/text-utils.js"></script>
+    <script src="js/core/preferences.js"></script>
+    <script src="js/core/themes.js"></script>
+    <script src="js/core/sound.js"></script>
+    <script src="js/core/feedback.js"></script>
+    <script src="js/core/modules.js"></script>
+    <script src="js/core/categories.js"></script>
+    <script src="js/core/navigation.js"></script>
+    <script src="js/core/modals.js"></script>
+    <script src="js/reading/engine.js"></script>
+    <script src="js/reading/controls.js"></script>
+    <script src="js/reading/finish.js"></script>
+    <script src="js/modules/reading/word.js"></script>
+    <script src="js/modules/reading/chunk.js"></script>
+    <script src="js/modules/reading/line.js"></script>
+    <script src="js/modules/reading/galactic.js"></script>
+    <script src="js/modules/games/schulte.js"></script>
+    <script src="js/library/books.js"></script>
+    <script src="js/library/covers.js"></script>
+    <script src="js/core/debug.js"></script>
+    <script src="js/app.js"></script>
+
+    <button class="btn btn-secondary config-back-fab hidden" id="config-back-fab" onclick="goBack()">← Atrás</button>
+</body>
+</html>

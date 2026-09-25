@@ -1,0 +1,93 @@
+/* ==========================================================================
+   TEMA: BASKETBALL
+   Cancha diurna. Fondo crema claro, acento naranja balón.
+   ========================================================================== */
+
+/* @theme-name: Cancha */
+/* @theme-icon: B */
+
+body.theme-basketball {
+    --bg-primary: #f2ebe0;
+    --bg-secondary: rgba(245, 240, 232, 0.92);
+    --bg-tertiary: #e8dfd0;
+    --bg-card: rgba(250, 246, 240, 0.95);
+    --bg-card-hover: #f5ede0;
+    --bg-card-active: #ecdfc9;
+
+    --border-color: rgba(120, 80, 50, 0.14);
+    --border-strong: rgba(120, 80, 50, 0.26);
+    --border-focus: #c46a28;
+
+    --text-primary: #3a2e25;
+    --text-secondary: #6a5748;
+    --text-muted: #928070;
+
+    --accent-primary: #c46a28;
+    --accent-hover: #d97734;
+    --accent-text: #fdf8f2;
+
+    --btn-primary-bg: #c46a28;
+    --btn-primary-text: #fdf8f2;
+    --btn-secondary-bg: rgba(120, 80, 50, 0.06);
+    --btn-secondary-text: #4a3d30;
+    --btn-disabled-opacity: 0.34;
+
+    --input-bg: rgba(255, 255, 255, 0.55);
+    --input-border: rgba(120, 80, 50, 0.18);
+    --input-text: #3a2e25;
+
+    --modal-bg: rgba(247, 242, 234, 0.98);
+    --modal-border: rgba(120, 80, 50, 0.18);
+
+    --slider-track: #c9b8a0;
+    --badge-color: #8a5220;
+
+    --pause-color: #6a4a28;
+    --pause-bg: rgba(196, 106, 40, 0.12);
+    --settings-btn-hover: rgba(196, 106, 40, 0.1);
+    --settings-btn-text: #6a5748;
+
+    --sample-btn-bg: rgba(120, 80, 50, 0.05);
+    --sample-btn-border: rgba(120, 80, 50, 0.14);
+    --sample-btn-text: #4a3d30;
+    --sample-btn-hover-border: #c46a28;
+    --sample-btn-hover-text: #3a2e25;
+
+    --saved-text-bg: rgba(120, 80, 50, 0.05);
+    --saved-text-border: rgba(120, 80, 50, 0.14);
+    --saved-text-hover-bg: rgba(196, 106, 40, 0.08);
+    --saved-text-hover-border: #c46a28;
+    --saved-text-title: #3a2e25;
+    --saved-text-preview: #7a6a58;
+
+    --btn-use-bg: #c46a28;
+    --btn-use-text: #fdf8f2;
+    --btn-edit-bg: #8a98a0;
+    --btn-edit-text: #ffffff;
+    --btn-delete-bg: #b85c50;
+    --btn-delete-text: #ffffff;
+    --btn-cancel-bg: #8a7a68;
+    --btn-cancel-text: #fdf8f2;
+    --btn-save-bg: #c46a28;
+    --btn-save-text: #fdf8f2;
+
+    --edit-form-input-bg: rgba(255, 255, 255, 0.55);
+    --edit-form-input-border: rgba(120, 80, 50, 0.18);
+    --edit-form-input-text: #3a2e25;
+    --edit-form-input-focus: #c46a28;
+
+    --galactic-text: #8b7c3c;
+    --galactic-content-bg: #242826;
+
+    --countdown-text: #4a3520;
+    --countdown-shadow: #2a1e10;
+
+    --focal-color: #2e2018;
+    --pointer-color: #c46a28;
+    --context-color: #9a8a78;
+    --chunk-color: #4a3d30;
+    --line-color: #3a2e25;
+    --reading-halo: rgba(0, 0, 0, 0.06);
+
+    --feedback-ripple: rgba(196, 106, 40, 0.3);
+}

@@ -1,0 +1,43 @@
+/* ==========================================================================
+   DEBUG — botón flotante copiador de logs
+   ========================================================================== */
+
+#debug-fab {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 99999;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid #ffb347;
+    background: rgba(0, 0, 0, 0.35);
+    color: #ffb347;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 0 12px #ffb347, 0 4px 12px rgba(0,0,0,0.35);
+    transition: transform .12s ease, box-shadow .12s ease;
+}
+
+#debug-fab:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 18px #ffb347, 0 6px 16px rgba(0,0,0,0.45);
+}
+
+#debug-fab:active {
+    transform: scale(0.94);
+}
+
+#debug-fab.hidden {
+    display: none !important;
+}
+
+@media (max-width: 640px) {
+    #debug-fab {
+        top: 8px;
+        right: 8px;
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+}

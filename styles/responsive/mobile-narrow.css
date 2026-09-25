@@ -1,0 +1,25 @@
+/* ==========================================================================
+   RESPONSIVE — Móvil muy estrecho (max-width: 380px)
+   ========================================================================== */
+
+@media (max-width: 380px) {
+    .controls { max-width: calc(100% - 10px); }
+    .slider-group { width: min(190px, 53vw); }
+    .slider-group input[type="range"] { width: 78px; }
+    .btn-icon {
+        width: 39px;
+        height: 39px;
+        min-width: 39px;
+        min-height: 39px;
+        padding: 3px;
+    }
+    .option-label { font-size: .66rem; }
+    .sample-texts { grid-template-columns: 1fr 1fr; }
+
+    .home-card { padding: 14px 10px; }
+    .home-card-icon { width: 42px; height: 42px; font-size: 1.05rem; }
+    .home-card-name { font-size: 0.82rem; }
+
+    .library-grid { grid-template-columns: 1fr; }
+    .book-cover-initial { font-size: 2rem; }
+}

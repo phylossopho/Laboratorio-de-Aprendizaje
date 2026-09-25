@@ -1,0 +1,227 @@
+/* ==========================================================================
+   HOME — pantalla de inicio con grid de categorías
+   ========================================================================== */
+
+.home-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-primary);
+    background-image: var(--noise-light);
+    background-size: 180px 180px;
+    background-blend-mode: soft-light;
+    color: var(--text-primary);
+    overflow: hidden;
+}
+
+.home-screen.hidden { display: none !important; }
+
+.home-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px clamp(20px, 4vw, 48px);
+    border-bottom: 1px solid var(--border-color);
+    background: color-mix(in srgb, var(--bg-secondary) 78%, transparent);
+    backdrop-filter: blur(14px) saturate(0.85);
+    -webkit-backdrop-filter: blur(14px) saturate(0.85);
+    flex-shrink: 0;
+}
+
+.home-title {
+    margin: 0;
+    font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+    font-weight: 750;
+    letter-spacing: 0.005em;
+    color: var(--text-primary);
+}
+
+.home-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.home-settings-btn {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    display: inline-grid;
+    place-items: center;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--btn-secondary-bg);
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease, transform .12s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.home-settings-btn:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+    transform: rotate(30deg);
+}
+
+.home-settings-btn:active {
+    transform: rotate(30deg) scale(0.94);
+}
+
+.home-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: clamp(24px, 4vh, 48px) clamp(20px, 4vw, 48px);
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+}
+
+.home-body::-webkit-scrollbar { width: 8px; }
+.home-body::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 99px;
+}
+
+.home-subtitle {
+    margin: 0 0 clamp(20px, 3vh, 32px);
+    color: var(--text-secondary);
+    font-size: clamp(0.9rem, 1.4vw, 1rem);
+    line-height: 1.5;
+    max-width: 640px;
+}
+
+.home-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(14px, 1.6vw, 20px);
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.home-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: clamp(18px, 2vw, 26px);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+    overflow: hidden;
+    transition:
+        transform .2s cubic-bezier(.2, .8, .2, 1),
+        border-color .2s ease,
+        background-color .2s ease,
+        box-shadow .25s ease;
+    -webkit-tap-highlight-color: transparent;
+    will-change: transform;
+}
+
+.home-card::after {
+    content: "→";
+    position: absolute;
+    right: 20px;
+    bottom: 18px;
+    font-size: 1.15rem;
+    color: var(--accent-primary);
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity .2s ease, transform .22s cubic-bezier(.2, .8, .2, 1);
+    pointer-events: none;
+}
+
+.home-card:hover {
+    transform: translateY(-4px);
+    background: var(--bg-card-hover);
+    border-color: var(--border-strong);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+}
+
+.home-card:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.home-card:active {
+    transform: translateY(-2px) scale(0.985);
+    border-color: var(--accent-primary);
+}
+
+.home-card:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--accent-primary) 45%, transparent);
+    outline-offset: 2px;
+}
+
+.home-card-icon {
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--accent-primary);
+    font-size: 1.35rem;
+    font-weight: 750;
+    letter-spacing: -0.03em;
+    flex-shrink: 0;
+    transition: background-color .2s ease;
+}
+
+.home-card:hover .home-card-icon {
+    background: color-mix(in srgb, var(--accent-primary) 16%, transparent);
+}
+
+.home-card-name {
+    font-size: clamp(0.98rem, 1.2vw, 1.08rem);
+    font-weight: 750;
+    line-height: 1.2;
+    color: var(--text-primary);
+}
+
+.home-card-desc {
+    font-size: 0.83rem;
+    line-height: 1.48;
+    color: var(--text-secondary);
+    flex: 1;
+}
+
+.home-card-when {
+    font-size: 0.72rem;
+    font-weight: 650;
+    color: var(--badge-color);
+    letter-spacing: 0.01em;
+}
+
+.home-footer {
+    padding: 14px clamp(20px, 4vw, 48px);
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+@media (hover: none) {
+    .home-card:hover {
+        transform: none;
+        background: var(--bg-card);
+        border-color: var(--border-color);
+        box-shadow: none;
+    }
+    .home-card:hover::after { opacity: 0; }
+    .home-card:active {
+        transform: scale(0.97);
+        background: var(--bg-card-hover);
+        border-color: var(--accent-primary);
+    }
+}
