@@ -107,6 +107,27 @@ DECISIONES CERRADAS
 - Juegos/modulos: al cerrar, usar `goBack()` para volver a la pantalla anterior.
 - Debug: FAB flotante copiador, activado por defecto en pruebas, ocultable con `Ctrl+Shift+D` o `hidden`.
 
+ACCESO A GITHUB
+
+- En este entorno, GitHub se accede por el almacén de credenciales de Windows.
+- Obtener token: `echo "protocol=https`nhost=github.com" | git credential fill`
+- Usar ese token para llamadas a la API o para operar remotos por HTTPS.
+- Si el token no alcanza, pedir uno con scope `repo` o usar `gh auth login` con token.
+- Para cerrar sesión: eliminar la entrada de `github.com` en Panel de control > Administrador de credenciales > Credenciales de Windows.
+
+METODOLOGIA DE REVISION Y CAMBIO
+
+1. Primera vuelta: lectura rapida para localizar la zona implicada.
+2. Segunda vuelta: confirmar la hipotesis con evidencia concreta del codigo.
+3. Tercer vuelta: antes de editar, relectura minuciosa de los archivos implicados
+   para validar que no haya otra causa oculta.
+   - Incluir revision de impacto cruzado: si el cambio toca codigo compartido
+     (sonido, controles, navegacion, temas, persistencia), verificar que no
+     afecte a otros modulos, motores de lectura, categorias o flujos.
+4. Solo despues de la tercer vuelta se aplica el cambio mas pequeno posible.
+5. Explicar porque del cambio, que pantallas/flujos toca y que riesgos
+   colaterales fueron evaluados.
+
 PREGUNTA DE DISENO
 
 Ante dudas:

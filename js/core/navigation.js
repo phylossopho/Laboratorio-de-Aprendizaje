@@ -21,6 +21,8 @@ function pushNavigation(screen, data) {
 function goBack() {
     if (currentModuleId) {
         closeModuleScreen();
+        if (typeof unmountGameControls === 'function') unmountGameControls();
+        hideGameControlsDOM();
         if (currentCategoryId) {
             openCategoryScreen(currentCategoryId);
         } else {
@@ -37,6 +39,16 @@ function goBack() {
     }
 
     showHome();
+}
+
+function mountGameControls(gameId) {
+    var controls = document.getElementById('game-controls');
+    if (controls) controls.classList.remove('hidden');
+}
+
+function unmountGameControls() {
+    var controls = document.getElementById('game-controls');
+    if (controls) controls.classList.add('hidden');
 }
 
 // ---------------------------------------------------------------------------
@@ -385,6 +397,8 @@ function mountGameModule(mod) {
     closeCategoryScreen();
     closeAllModals();
 
+    if (typeof mountGameControls === 'function') mountGameControls(mod.id);
+
     var ctx = buildContext(mod, '');
     mod.render(ctx);
 }
@@ -395,8 +409,20 @@ function mountCustomModule(mod) {
     closeCategoryScreen();
     closeAllModals();
 
+    if (typeof mountGameControls === 'function') mountGameControls(mod.id);
+
     var ctx = buildContext(mod, '');
     mod.render(ctx);
+}
+
+function showGameControlsDOM() {
+    var controls = document.getElementById('game-controls');
+    if (controls) controls.classList.remove('hidden');
+}
+
+function hideGameControlsDOM() {
+    var controls = document.getElementById('game-controls');
+    if (controls) controls.classList.add('hidden');
 }
 
 function buildContext(mod, text, skipCountdown) {

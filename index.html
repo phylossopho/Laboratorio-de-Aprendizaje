@@ -171,6 +171,47 @@
         </div>
     </div>
 
+    <!-- ===== Controles de minijuegos ===== -->
+    <div class="controls hidden" id="game-controls" aria-label="Controles de minijuego">
+        <div class="control-row">
+            <button class="btn btn-secondary btn-icon control-action"
+                    id="btn-game-pause"
+                    onclick="toggleGamePause()"
+                    aria-label="Pausar o continuar"
+                    title="Pausar / continuar">
+                <span id="game-pause-icon" aria-hidden="true">⏸</span>
+                <span class="sr-only">Pausar / continuar</span>
+            </button>
+            <span class="control-separator" aria-hidden="true">|</span>
+
+            <button class="btn btn-secondary btn-icon control-action"
+                    id="btn-game-reset"
+                    onclick="restartCurrentGame()"
+                    aria-label="Reiniciar minijuego"
+                    title="Reiniciar">
+                <span aria-hidden="true">↻</span>
+                <span class="sr-only">Reiniciar</span>
+            </button>
+            <span class="control-separator" aria-hidden="true">|</span>
+
+            <button class="btn btn-secondary speed-btn speed-down" onclick="adjustGameVolume(-1)" aria-label="Bajar volumen" title="Bajar volumen">🔈</button>
+            <button class="btn btn-secondary speed-btn speed-up" onclick="adjustGameVolume(1)" aria-label="Subir volumen" title="Subir volumen">🔊</button>
+            <span class="control-separator" aria-hidden="true">|</span>
+
+            <output class="btn btn-secondary btn-icon control-action game-timer-display" id="game-timer-display" aria-label="Cronómetro" onclick="toggleGameTimer()" style="cursor:pointer;">⏱</output>
+            <span class="control-separator" aria-hidden="true">|</span>
+
+            <button class="btn btn-secondary btn-icon control-action"
+                    id="btn-game-back"
+                    onclick="gameBack()"
+                    aria-label="Volver"
+                    title="Volver">
+                <span aria-hidden="true">←</span>
+                <span class="sr-only">Volver</span>
+            </button>
+        </div>
+    </div>
+
     <!-- ===== Modal: agregar / editar texto ===== -->
     <div class="modal-overlay hidden" id="book-modal">
         <div class="modal">
@@ -413,6 +454,7 @@
     <script src="js/modules/reading/line.js"></script>
     <script src="js/modules/reading/galactic.js"></script>
     <script src="js/modules/games/schulte.js"></script>
+    <script src="js/games/controls.js"></script>
     <script src="js/library/books.js"></script>
     <script src="js/library/covers.js"></script>
     <script src="js/core/debug.js"></script>

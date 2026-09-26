@@ -55,6 +55,15 @@ Ante cualquier cambio o modificación, invitaré al usuario a auditarlo mediante
 
 ## Cambios realizados en esta sesión
 
+### Metodología de revisión
+- Ante cualquier fallo, seguir 3 vueltas de revisión antes de modificar:
+  1. Lectura rápida para localizar la zona implicada.
+  2. Confirmar hipótesis con evidencia concreta del código.
+  3. Relectura minuciosa de los archivos implicados para validar que no haya otra causa oculta.
+- Solo después de la tercer vuelta se aplica el cambio más pequeño posible.
+- Explicar siempre el porqué del cambio, qué pantallas/flujos toca y qué riesgos colaterales se evaluaron.
+- Incluir revisión de impacto cruzado: si el cambio toca código compartido (sonido, controles, navegación, temas, persistencia), verificar que no afecte a otros módulos, motores de lectura, categorías o flujos.
+
 ### Flujo de biblioteca
 - Biblioteca movida a `js/library/books.js` con tarjetas como componente BEM.
 - Categoría `texts` ya no usa pantalla genérica de módulos; tiene su propio layout.
@@ -99,6 +108,14 @@ Ante cualquier cambio o modificación, invitaré al usuario a auditarlo mediante
 - Navegación centralizada con `goBack()` para categorías, módulos, juegos y lectura.
 - Minijuegos: `closeSchulte()` llama a `goBack()`; no queda fondo vacío.
 - Debug: botón FAB naranja neón copiador, activado por defecto en pruebas.
+
+## Countdown
+- Animación `countdownPulse` invertida: de grande a chico, desvaneciéndose.
+- Duración sincronizada en **1s** por número, tanto en CSS como en `engine.js`.
+- Reinicio de animación con `animation: none` + reflow, sin depender solo de clases.
+- Flujo en Schulte: pantalla del juego → countdown 3-2-1 → tablero listo.
+- Botón **Empezar** del modal de instrucciones entra directo a la pantalla del juego y lanza el countdown.
+- Botón **Reiniciar** del header también usa el mismo flujo con countdown.
 
 ## Próximos pasos sugeridos
 1. Ajustes finos de tipografía/espaciado del modal según feedback visual.

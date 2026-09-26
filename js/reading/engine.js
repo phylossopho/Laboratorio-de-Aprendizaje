@@ -49,14 +49,15 @@ function startReadingCountdown(startCb) {
     }
 
     function tick() {
-        countdownEl.classList.remove('hidden', 'pulse');
+        countdownEl.classList.remove('hidden');
+        countdownEl.style.animation = 'none';
         void countdownEl.offsetWidth;
-        countdownEl.classList.add('pulse');
+        countdownEl.style.animation = '';
         countdownEl.textContent = String(count);
 
         count--;
         if (count > 0) {
-            countdownTimer = window.setTimeout(tick, 500);
+            countdownTimer = window.setTimeout(tick, 1000);
         } else {
             countdownTimer = window.setTimeout(function () {
                 clearCountdown();
@@ -64,8 +65,8 @@ function startReadingCountdown(startCb) {
                     wordDisplay.style.transition = 'opacity 1s ease';
                     wordDisplay.style.opacity = '1';
                 }
-                window.setTimeout(function () { startCb(); }, 500);
-            }, 500);
+                startCb();
+            }, 1000);
         }
     }
 

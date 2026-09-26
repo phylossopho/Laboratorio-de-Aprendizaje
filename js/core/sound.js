@@ -13,7 +13,28 @@ function initGameSound() {
 function playGameSound() {
     if (gameSoundMode === 'off' || !gameSound) return;
     try {
-        gameSound.volume = gameSoundMode === 'soft' ? 0.35 : 1.0;
+        var volume = 1.0;
+        if (gameSoundMode === 'low') volume = 0.25;
+        else if (gameSoundMode === 'medium') volume = 0.5;
+        else if (gameSoundMode === 'high') volume = 1.0;
+        gameSound.volume = volume;
+        gameSound.currentTime = 0;
+        var p = gameSound.play();
+        if (p && typeof p.catch === 'function') {
+            p.catch(function () {});
+        }
+    } catch (e) {}
+}
+
+function playGameSound() {
+    if (gameSoundMode === 'off' || !gameSound) return;
+    try {
+        var volume = 1.0;
+        if (gameSoundMode === 'low') volume = 0.25;
+        else if (gameSoundMode === 'medium') volume = 0.5;
+        else if (gameSoundMode === 'high') volume = 0.75;
+        else if (gameSoundMode === 'max') volume = 1.0;
+        gameSound.volume = volume;
         gameSound.currentTime = 0;
         var p = gameSound.play();
         if (p && typeof p.catch === 'function') {
@@ -23,7 +44,7 @@ function playGameSound() {
 }
 
 function setGameSound(newMode) {
-    if (newMode !== 'off' && newMode !== 'soft' && newMode !== 'on') return;
+    if (!['off', 'low', 'medium', 'high', 'max'].includes(newMode)) return;
     gameSoundMode = newMode;
     applyGameSoundUI();
     savePreferences();
@@ -37,20 +58,25 @@ function applyGameSoundUI() {
 
 function soundIcon() {
     if (gameSoundMode === 'off') return '✕';
-    if (gameSoundMode === 'soft') return '◐';
-    return '♪';
+    if (gameSoundMode === 'low') return '🔈';
+    if (gameSoundMode === 'medium') return '🔉';
+    if (gameSoundMode === 'high') return '🔊';
+    return '🔊';
 }
 
 function soundTitle() {
     if (gameSoundMode === 'off') return 'Sonido: apagado';
-    if (gameSoundMode === 'soft') return 'Sonido: suave';
-    return 'Sonido: activado';
+    if (gameSoundMode === 'low') return 'Sonido: 25%';
+    if (gameSoundMode === 'medium') return 'Sonido: 50%';
+    if (gameSoundMode === 'high') return 'Sonido: 75%';
+    if (gameSoundMode === 'max') return 'Sonido: 100%';
+    return 'Sonido';
 }
 
 function cycleGameSound() {
-    var next;
-    if (gameSoundMode === 'off') next = 'soft';
-    else if (gameSoundMode === 'soft') next = 'on';
-    else next = 'off';
+    var modes = ['off', 'low', 'medium', 'high', 'max'];
+    var idx = modes.indexOf(gameSoundMode);
+    if (idx === -1) idx = 0;
+    var next = modes[(idx + 1) % modes.length];
     setGameSound(next);
 }

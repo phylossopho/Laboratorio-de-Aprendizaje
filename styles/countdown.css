@@ -20,7 +20,7 @@
 }
 
 .countdown-number.pulse {
-    animation: countdownPulse .45s ease-out both;
+    animation: countdownPulse 1s ease-out both;
 }
 
 .fin-message {

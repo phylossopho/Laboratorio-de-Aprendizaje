@@ -127,7 +127,7 @@ function schulteShowInstructions(size) {
     var goBtn = document.createElement('button');
     goBtn.className = 'btn btn-primary';
     goBtn.textContent = 'Empezar';
-    goBtn.addEventListener('click', function () { schulteBeginGame(size); });
+    goBtn.addEventListener('click', function () { schulteShowCountdownAndBegin(size); });
 
     actions.appendChild(cancelBtn);
     actions.appendChild(goBtn);
@@ -139,70 +139,31 @@ function schulteShowInstructions(size) {
 }
 
 function schulteBeginGame(size) {
+    schultePrepareGameScreen(size);
+    schultePopulateBoard(size);
+}
+
+function schulteShowCountdownAndBegin(size) {
+    schultePrepareGameScreen(size);
+    startReadingCountdown(function () {
+        schultePopulateBoard(size);
+    });
+}
+
+function schultePrepareGameScreen(size) {
     var screen = document.getElementById('game-screen');
     if (!screen) return;
     schulteCleanup();
     screen.innerHTML = '';
 
-    var total = size * size;
-    var numbers = [];
-    for (var i = 1; i <= total; i++) numbers.push(i);
-    for (var j = numbers.length - 1; j > 0; j--) {
-        var k = Math.floor(Math.random() * (j + 1));
-        var tmp = numbers[j]; numbers[j] = numbers[k]; numbers[k] = tmp;
-    }
-
     var header = document.createElement('div');
     header.className = 'game-screen-header';
 
-    var backBtn = document.createElement('button');
-    backBtn.className = 'btn btn-secondary game-back-btn';
-    backBtn.textContent = '← Salir';
-    backBtn.addEventListener('click', closeSchulte);
+    var title = document.createElement('h2');
+    title.className = 'game-screen-title';
+    title.textContent = 'Tabla de Schulte';
 
-    var headerActions = document.createElement('div');
-    headerActions.className = 'schulte-header-actions';
-
-    var soundBtn = document.createElement('button');
-    soundBtn.className = 'btn btn-secondary btn-icon schulte-sound-btn';
-    soundBtn.setAttribute('aria-label', 'Sonido');
-    soundBtn.title = soundTitle();
-    var soundIconEl = document.createElement('span');
-    soundIconEl.setAttribute('aria-hidden', 'true');
-    soundIconEl.textContent = soundIcon();
-    soundBtn.appendChild(soundIconEl);
-    soundBtn.addEventListener('click', function () {
-        cycleGameSound();
-        soundIconEl.textContent = soundIcon();
-        soundBtn.title = soundTitle();
-    });
-
-    var pauseBtn = document.createElement('button');
-    pauseBtn.className = 'btn btn-secondary btn-icon';
-    pauseBtn.setAttribute('aria-label', 'Pausar');
-    pauseBtn.title = 'Pausar / continuar';
-    var pauseBtnIcon = document.createElement('span');
-    pauseBtnIcon.setAttribute('aria-hidden', 'true');
-    pauseBtnIcon.textContent = '⏸';
-    pauseBtn.appendChild(pauseBtnIcon);
-    pauseBtn.addEventListener('click', schulteTogglePause);
-
-    var resetBtn = document.createElement('button');
-    resetBtn.className = 'btn btn-secondary btn-icon';
-    resetBtn.setAttribute('aria-label', 'Reiniciar tabla');
-    resetBtn.title = 'Reiniciar';
-    var resetIcon = document.createElement('span');
-    resetIcon.setAttribute('aria-hidden', 'true');
-    resetIcon.textContent = '↻';
-    resetBtn.appendChild(resetIcon);
-    resetBtn.addEventListener('click', function () { schulteBeginGame(size); });
-
-    headerActions.appendChild(soundBtn);
-    headerActions.appendChild(pauseBtn);
-    headerActions.appendChild(resetBtn);
-
-    header.appendChild(backBtn);
-    header.appendChild(headerActions);
+    header.appendChild(title);
     screen.appendChild(header);
 
     var promptEl = document.createElement('div');
@@ -212,7 +173,7 @@ function schulteBeginGame(size) {
 
     var counterEl = document.createElement('div');
     counterEl.className = 'schulte-counter';
-    counterEl.textContent = '1 de ' + total;
+    counterEl.textContent = '1 de ' + (size * size);
     screen.appendChild(counterEl);
 
     var gridArea = document.createElement('div');
@@ -221,15 +182,6 @@ function schulteBeginGame(size) {
     var grid = document.createElement('div');
     grid.className = 'schulte-grid';
     grid.style.gridTemplateColumns = 'repeat(' + size + ', 1fr)';
-
-    numbers.forEach(function (num) {
-        var cell = document.createElement('button');
-        cell.className = 'schulte-cell';
-        cell.textContent = String(num);
-        cell.addEventListener('click', function (e) { schulteHandleClick(num, cell, e); });
-        grid.appendChild(cell);
-    });
-
     gridArea.appendChild(grid);
 
     var dot = document.createElement('div');
@@ -260,14 +212,50 @@ function schulteBeginGame(size) {
     screen.appendChild(pauseOverlay);
 
     schulteState = {
-        size: size, total: total, nextNumber: 1, isPaused: false,
-        screen: screen, promptEl: promptEl, counterEl: counterEl,
-        progressFill: progressFill, pauseOverlay: pauseOverlay,
-        pauseBtnIcon: pauseBtnIcon, soundIconEl: soundIconEl
+        size: size,
+        total: size * size,
+        nextNumber: 1,
+        isPaused: false,
+        screen: screen,
+        promptEl: promptEl,
+        counterEl: counterEl,
+        grid: grid,
+        progressFill: progressFill,
+        pauseOverlay: pauseOverlay
     };
 
     schulteUpdateProgress();
     document.addEventListener('keydown', schulteHandleKeydown);
+}
+
+function schultePopulateBoard(size) {
+    if (!schulteState) return;
+    var total = schulteState.total;
+    var numbers = [];
+    for (var i = 1; i <= total; i++) numbers.push(i);
+    for (var j = numbers.length - 1; j > 0; j--) {
+        var k = Math.floor(Math.random() * (j + 1));
+        var tmp = numbers[j]; numbers[j] = numbers[k]; numbers[k] = tmp;
+    }
+
+    var grid = schulteState.grid;
+    grid.innerHTML = '';
+
+    numbers.forEach(function (num) {
+        var cell = document.createElement('button');
+        cell.className = 'schulte-cell';
+        cell.textContent = String(num);
+        cell.addEventListener('click', function (e) { schulteHandleClick(num, cell, e); });
+        grid.appendChild(cell);
+    });
+
+    schulteState.nextNumber = 1;
+    schulteState.promptEl.textContent = '1';
+    schulteState.counterEl.textContent = '1 de ' + total;
+    schulteUpdateProgress();
+
+    if (typeof startGameTimer === 'function') startGameTimer();
+    showGameControlsDOM();
 }
 
 function schulteHandleKeydown(e) {
@@ -286,10 +274,8 @@ function schulteTogglePause() {
     schulteState.isPaused = !schulteState.isPaused;
     if (schulteState.isPaused) {
         schulteState.pauseOverlay.classList.remove('hidden');
-        schulteState.pauseBtnIcon.textContent = '▶';
     } else {
         schulteState.pauseOverlay.classList.add('hidden');
-        schulteState.pauseBtnIcon.textContent = '⏸';
     }
 }
 
@@ -366,7 +352,7 @@ function schulteFinish() {
     var againBtn = document.createElement('button');
     againBtn.className = 'btn btn-primary';
     againBtn.textContent = 'Otra vez';
-    againBtn.addEventListener('click', function () { schulteBeginGame(size); });
+    againBtn.addEventListener('click', function () { schulteShowCountdownAndBegin(size); });
 
     var menuBtn = document.createElement('button');
     menuBtn.className = 'btn btn-secondary';
@@ -377,6 +363,12 @@ function schulteFinish() {
     actions.appendChild(menuBtn);
     overlay.appendChild(actions);
     screen.appendChild(overlay);
+
+    if (typeof stopGameTimer === 'function') stopGameTimer();
+    if (gameControlState && typeof gameControlState.timerStart !== 'undefined') {
+        gameControlState.timerStart = Date.now();
+    }
+    updateGameTimerDisplay();
 }
 
 function schulteGetCompletedCount(size) {
@@ -411,5 +403,22 @@ registerModule({
     order: 1,
     shell: 'game',
     render: function () { startSchulte(); },
-    stop: function () { closeSchulte(); }
+    stop: function () { closeSchulte(); },
+    actions: {
+        pause: function () {
+            if (schulteState && !schulteState.isPaused) {
+                schulteTogglePause();
+            }
+        },
+        resume: function () {
+            if (schulteState && schulteState.isPaused) {
+                schulteTogglePause();
+            }
+        },
+        restart: function () {
+            var size = schulteState ? schulteState.size : 3;
+            schulteShowCountdownAndBegin(size);
+        },
+        stop: function () { closeSchulte(); }
+    }
 });
