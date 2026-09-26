@@ -86,7 +86,7 @@ function renderTextPickerList() {
                 lastText = book.content;
                 currentBookId = book.id;
                 currentChapterId = null;
-                openModuleScreenWithSkip(mod.id, true);
+                openModuleScreenWithSkip(mod.id, false);
             },
             onDelete: function() {
                 renderTextPickerList();
@@ -116,7 +116,7 @@ function startWithConfig() {
     if (!mod) return;
 
     closeAllModals();
-    openModuleScreenWithSkip(mod.id, true);
+    openModuleScreenWithSkip(mod.id, false);
 }
 
 function loadFileText(event) {

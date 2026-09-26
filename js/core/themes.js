@@ -9,7 +9,7 @@ function applyTheme() {
     var themeClasses = ['theme-dark', 'theme-neon', 'theme-light'];
     customThemesCache.forEach(function (t) { themeClasses.push('theme-' + t.id); });
 
-    var fontClasses = ['font-small', 'font-medium', 'font-large'];
+    var fontClasses = ['font-xsmall', 'font-small', 'font-medium', 'font-large', 'font-xlarge'];
 
     themeClasses.forEach(function (c) { document.body.classList.remove(c); });
     fontClasses.forEach(function (c) { document.body.classList.remove(c); });

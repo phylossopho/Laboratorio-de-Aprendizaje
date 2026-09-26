@@ -113,7 +113,7 @@ function openBook(id) {
         if (inputText) inputText.value = book.content;
         currentBookId = book.id;
         currentChapterId = null;
-        openModuleScreenWithSkip(mod.id, true);
+        openModuleScreenWithSkip(mod.id, false);
         return;
     }
 
@@ -148,7 +148,7 @@ function openChapter(bookId, chapterId) {
 
     currentBookId = book.id;
     currentChapterId = chapterId;
-    openModuleScreenWithSkip(mod.id, true);
+    openModuleScreenWithSkip(mod.id, false);
 }
 
 // ---------------------------------------------------------------------------
@@ -325,7 +325,14 @@ function buildBookCard(book, extraHandlers) {
 
     var cover = document.createElement('div');
     cover.className = 'card__thumbnail';
-    var coverData = generateCover(book.title, currentTheme);
+
+    var hasChapters = book.chapters && book.chapters.length > 0;
+    var coverData = hasChapters
+        ? { background: 'var(--bg-secondary)', color: 'var(--text-primary)', pattern: 'solid', initial: '📖', hue: 0 }
+        : generateCover(book.title, currentTheme);
+    if (!hasChapters) {
+        coverData.initial = '📄';
+    }
     applyCoverStyles(cover, coverData);
 
     var initial = document.createElement('span');
@@ -341,7 +348,6 @@ function buildBookCard(book, extraHandlers) {
 
     var meta = document.createElement('div');
     meta.className = 'card__description';
-    var hasChapters = book.chapters && book.chapters.length > 0;
     if (hasChapters) {
         var completed = 0;
         for (var cid in book.chapterStates) {
@@ -354,59 +360,86 @@ function buildBookCard(book, extraHandlers) {
         meta.textContent = '';
     }
 
-    var actions = document.createElement('div');
-    actions.className = 'card__actions';
-
-    var editBtn = document.createElement('button');
-    editBtn.className = 'card__action-btn';
-    editBtn.type = 'button';
-    editBtn.setAttribute('aria-label', 'Editar');
-    editBtn.title = 'Editar';
-    editBtn.textContent = '✎';
-    editBtn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        if (typeof extraHandlers.onEdit === 'function') {
-            extraHandlers.onEdit(book.id);
-        } else {
-            openEditBookModal(book.id);
-        }
-    });
-
-    var delBtn = document.createElement('button');
-    delBtn.className = 'card__action-btn';
-    delBtn.type = 'button';
-    delBtn.setAttribute('aria-label', 'Eliminar');
-    delBtn.title = 'Eliminar';
-    delBtn.textContent = '×';
-    delBtn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        if (typeof extraHandlers.onDelete === 'function') {
-            extraHandlers.onDelete(book.id, book.title);
-        } else {
-            if (confirm('¿Eliminar el texto "' + book.title + '"?')) {
-                deleteBook(book.id);
-                renderLibraryScreen();
-            }
-        }
-    });
-
-    actions.appendChild(editBtn);
-    actions.appendChild(delBtn);
-
     card.appendChild(cover);
     card.appendChild(title);
     card.appendChild(meta);
-    card.appendChild(actions);
 
     card.addEventListener('click', function () {
         if (typeof extraHandlers.onClick === 'function') {
             extraHandlers.onClick(book);
         } else {
-            openBook(book.id);
+            openTextViewer(book.id);
         }
     });
 
     return card;
+}
+
+// ---------------------------------------------------------------------------
+// Visor de texto completo
+// ---------------------------------------------------------------------------
+
+var currentViewerBookId = null;
+var viewerFontSize = 18;
+
+function openTextViewer(bookId) {
+    var book = findBook(bookId);
+    if (!book) return;
+
+    currentViewerBookId = bookId;
+
+    var screen = document.getElementById('text-viewer-screen');
+    var titleEl = document.getElementById('text-viewer-title');
+    var contentEl = document.getElementById('text-viewer-content');
+    var controls = document.getElementById('text-viewer-controls');
+    var fontSizeDisplay = document.getElementById('text-viewer-font-size-display');
+
+    if (!screen || !titleEl || !contentEl) return;
+
+    titleEl.textContent = book.title || 'Texto';
+    contentEl.textContent = book.content || '';
+    viewerFontSize = 18;
+    if (fontSizeDisplay) fontSizeDisplay.textContent = String(viewerFontSize);
+    contentEl.style.fontSize = viewerFontSize + 'px';
+
+    screen.classList.remove('hidden');
+    if (controls) controls.classList.remove('hidden');
+}
+
+function closeTextViewer() {
+    var screen = document.getElementById('text-viewer-screen');
+    var controls = document.getElementById('text-viewer-controls');
+    if (screen) screen.classList.add('hidden');
+    if (controls) controls.classList.add('hidden');
+    currentViewerBookId = null;
+}
+
+function editCurrentBook() {
+    var bookId = currentViewerBookId;
+    if (!bookId) return;
+    closeTextViewer();
+    openTextEditor(bookId);
+}
+
+function deleteCurrentBook() {
+    if (!currentViewerBookId) return;
+    var book = findBook(currentViewerBookId);
+    if (!book) return;
+    showDeleteConfirm(currentViewerBookId, book.title);
+}
+
+function adjustTextViewerFontSize(delta) {
+    var sizes = [15, 18, 21, 24, 27];
+    var idx = sizes.indexOf(viewerFontSize);
+    if (idx === -1) idx = 1;
+    var next = idx + delta;
+    next = Math.max(0, Math.min(sizes.length - 1, next));
+    viewerFontSize = sizes[next];
+
+    var contentEl = document.getElementById('text-viewer-content');
+    var fontSizeDisplay = document.getElementById('text-viewer-font-size-display');
+    if (contentEl) contentEl.style.fontSize = viewerFontSize + 'px';
+    if (fontSizeDisplay) fontSizeDisplay.textContent = String(viewerFontSize);
 }
 
 // ---------------------------------------------------------------------------
@@ -437,25 +470,7 @@ function openAddBookModal() {
 }
 
 function openEditBookModal(id) {
-    var book = findBook(id);
-    if (!book) return;
-    
-    editingBookId = id;
-    pendingBookContent = null;
-    pendingBookChapters = book.chapters || [];
-    
-    var modal = document.getElementById('book-modal');
-    var titleInput = document.getElementById('book-title-input');
-    var contentInput = document.getElementById('book-content-input');
-    var modalTitle = document.getElementById('book-modal-title');
-    
-    if (!modal || !titleInput || !contentInput) return;
-    
-    modalTitle.textContent = 'Editar texto';
-    titleInput.value = book.title || '';
-    contentInput.value = book.content || '';
-    modal.classList.remove('hidden');
-    titleInput.focus();
+    openTextEditor(id);
 }
 
 function closeBookModal() {
@@ -633,4 +648,121 @@ function loadBookFileText(event) {
         event.target.value = '';
     };
     reader.readAsText(file);
+}
+
+// ---------------------------------------------------------------------------
+// Confirmación de eliminación con diseño de la app
+// ---------------------------------------------------------------------------
+
+var pendingDeleteBookId = null;
+
+function showDeleteConfirm(bookId, bookTitle) {
+    var modal = document.getElementById('delete-confirm-modal');
+    var message = document.getElementById('delete-confirm-message');
+    var okBtn = document.getElementById('delete-confirm-ok');
+    var cancelBtn = document.getElementById('delete-confirm-cancel');
+
+    if (!modal || !message || !okBtn || !cancelBtn) return;
+
+    pendingDeleteBookId = bookId;
+    message.textContent = '¿Eliminar el texto "' + bookTitle + '"?';
+
+    modal.classList.remove('hidden');
+
+    function closeAndClean() {
+        modal.classList.add('hidden');
+        pendingDeleteBookId = null;
+    }
+
+    cancelBtn.onclick = closeAndClean;
+
+    okBtn.onclick = function () {
+        if (pendingDeleteBookId) {
+            deleteBook(pendingDeleteBookId);
+            renderLibraryScreen();
+        }
+        closeAndClean();
+    };
+}
+
+// ---------------------------------------------------------------------------
+// Editor de texto completo
+// ---------------------------------------------------------------------------
+
+var currentEditorBookId = null;
+
+function openTextEditor(bookId) {
+    var book = findBook(bookId);
+    if (!book) return;
+
+    currentEditorBookId = bookId;
+
+    var screen = document.getElementById('text-editor-screen');
+    var titleInput = document.getElementById('text-editor-title-input');
+    var contentInput = document.getElementById('text-editor-content-input');
+    var controls = document.getElementById('text-editor-controls');
+    var titleEl = document.getElementById('text-editor-title');
+
+    if (!screen || !titleInput || !contentInput) return;
+
+    if (titleEl) titleEl.textContent = 'Editar: ' + (book.title || '');
+    titleInput.value = book.title || '';
+    contentInput.value = book.content || '';
+
+    screen.classList.remove('hidden');
+    if (controls) controls.classList.remove('hidden');
+    titleInput.focus();
+}
+
+function closeTextEditor() {
+    var screen = document.getElementById('text-editor-screen');
+    var controls = document.getElementById('text-editor-controls');
+    if (screen) screen.classList.add('hidden');
+    if (controls) controls.classList.add('hidden');
+    currentEditorBookId = null;
+}
+
+function saveCurrentBook() {
+    if (!currentEditorBookId) return;
+
+    var titleInput = document.getElementById('text-editor-title-input');
+    var contentInput = document.getElementById('text-editor-content-input');
+
+    if (!titleInput || !contentInput) return;
+
+    var title = titleInput.value.trim();
+    var content = contentInput.value;
+
+    if (!title) {
+        titleInput.focus();
+        return;
+    }
+
+    if (!content || !content.trim()) {
+        contentInput.focus();
+        return;
+    }
+
+    updateBook(currentEditorBookId, {
+        title: title,
+        content: content
+    });
+
+    closeTextEditor();
+    openTextViewer(currentEditorBookId);
+}
+
+function toggleHelp() {
+    var modal = document.getElementById('help-modal');
+    if (modal) modal.classList.toggle('hidden');
+}
+
+function openHelpModal() {
+    var modal = document.getElementById('help-modal');
+    if (modal) modal.classList.remove('hidden');
+}
+
+function closeHelpModal() {
+    var modal = document.getElementById('help-modal');
+    if (modal) modal.classList.add('hidden');
 }

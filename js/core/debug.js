@@ -4,7 +4,7 @@
 //   - Ctrl+Shift+D
 //   - ?debug=1 en la URL
 
-var DEBUG_ENABLED = true;
+var DEBUG_ENABLED = false;
 var DEBUG_LOGS = [];
 var DEBUG_MAX = 500;
 var debugFab = null;

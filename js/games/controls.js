@@ -30,6 +30,7 @@ function unmountGameControls() {
     gameControlState.showTimer = false;
     gameControlState.pausedDuration = 0;
     gameControlState.pauseStart = 0;
+    gameControlState.timerStart = 0;
     updateGameTimerDisplay();
 }
 

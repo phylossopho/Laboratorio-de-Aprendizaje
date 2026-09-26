@@ -82,10 +82,147 @@
         <button class="fab" id="fab-add" onclick="openAddBookModal()" aria-label="Añadir texto" title="Añadir texto">+</button>
     </div>
 
+    <!-- ===== Pantalla de lectura de texto completo ===== -->
+    <div class="category-screen hidden" id="text-viewer-screen">
+        <div class="text-viewer-header">
+            <h2 class="category-title" id="text-viewer-title">Texto</h2>
+        </div>
+        <div class="text-viewer-body" id="text-viewer-body">
+            <div class="text-viewer-content" id="text-viewer-content"></div>
+        </div>
+        <div class="controls hidden" id="text-viewer-controls" aria-label="Controles de texto">
+            <div class="control-row">
+                <button class="btn btn-secondary btn-icon control-action"
+                        id="btn-text-edit"
+                        onclick="editCurrentBook()"
+                        aria-label="Editar texto"
+                        title="Editar texto">
+                    <span aria-hidden="true">✎</span>
+                    <span class="sr-only">Editar</span>
+                </button>
+
+                <div class="control-separator" aria-hidden="true"></div>
+
+                <button class="btn btn-secondary speed-btn font-size-down"
+                        onclick="adjustTextViewerFontSize(-1)"
+                        aria-label="Reducir tamaño de texto"
+                        title="Texto más pequeño">A−</button>
+                <output class="font-size-value" id="text-viewer-font-size-display" aria-label="Tamaño actual">18</output>
+                <button class="btn btn-secondary speed-btn font-size-up"
+                        onclick="adjustTextViewerFontSize(1)"
+                        aria-label="Aumentar tamaño de texto"
+                        title="Texto más grande">A+</button>
+
+                <div class="control-separator" aria-hidden="true"></div>
+
+                <button class="btn btn-secondary btn-icon control-action"
+                        id="btn-text-delete"
+                        onclick="deleteCurrentBook()"
+                        aria-label="Eliminar texto"
+                        title="Eliminar texto">
+                    <span aria-hidden="true">🗑</span>
+                    <span class="sr-only">Eliminar</span>
+                </button>
+
+                <button class="btn btn-secondary btn-icon control-action"
+                        id="btn-text-back"
+                        onclick="closeTextViewer()"
+                        aria-label="Volver"
+                        title="Volver">
+                    <span aria-hidden="true">←</span>
+                    <span class="sr-only">Volver</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Pantalla de edición de texto ===== -->
+    <div class="category-screen hidden" id="text-editor-screen">
+        <div class="text-editor-header">
+            <h2 class="category-title" id="text-editor-title">Editar texto</h2>
+        </div>
+        <div class="text-editor-body" id="text-editor-body">
+            <div class="text-editor-form" id="text-editor-form">
+                <label for="text-editor-title-input">Nombre del texto</label>
+                <input type="text" id="text-editor-title-input" placeholder="Ej.: Cien años de soledad" autocomplete="off">
+                <label for="text-editor-content-input">Contenido</label>
+                <textarea id="text-editor-content-input" placeholder="Escribe o pega el texto aquí. Usa '# Título' para marcar capítulos."></textarea>
+            </div>
+        </div>
+        <div class="controls hidden" id="text-editor-controls" aria-label="Controles de edición">
+            <div class="control-row">
+                <button class="btn btn-secondary btn-icon control-action"
+                        id="btn-text-editor-back"
+                        onclick="closeTextEditor()"
+                        aria-label="Volver"
+                        title="Volver">
+                    <span aria-hidden="true">←</span>
+                    <span class="sr-only">Volver</span>
+                </button>
+
+                <div class="control-separator" aria-hidden="true"></div>
+
+                <button class="btn btn-secondary btn-icon control-action"
+                        id="btn-text-editor-help"
+                        onclick="openHelpModal()"
+                        aria-label="Ayuda"
+                        title="Instrucciones">
+                    <span aria-hidden="true">?</span>
+                    <span class="sr-only">Ayuda</span>
+                </button>
+
+                <div class="control-separator" aria-hidden="true"></div>
+
+                <button class="btn btn-primary btn-icon control-action"
+                        id="btn-text-editor-save"
+                        onclick="saveCurrentBook()"
+                        aria-label="Guardar"
+                        title="Guardar">
+                    <span aria-hidden="true">💾</span>
+                    <span class="sr-only">Guardar</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Modal: instrucciones de edición ===== -->
+    <div class="modal-overlay hidden" id="help-modal">
+        <div class="modal modal-settings">
+            <div class="modal-settings-header">
+                <h2 style="margin:0;">Instrucciones</h2>
+                <button class="fab fab-close-help" onclick="closeHelpModal()" aria-label="Cerrar" title="Cerrar">×</button>
+            </div>
+            <div class="modal-settings-body">
+                <div class="text-editor-instructions">
+                    <p><strong>Formato del texto:</strong></p>
+                    <ul>
+                        <li>Usa <code># Título</code> para títulos principales</li>
+                        <li>Usa <code>## Subtítulo</code> para subtítulos</li>
+                        <li>Usa <code>---</code> en una línea vacía para separar capítulos</li>
+                        <li>El texto se guarda automáticamente al pulsar Guardar</li>
+                    </ul>
+                    <div class="text-editor-example">
+                        <p><strong>Ejemplo:</strong></p>
+                        <pre><code># El principito
+
+## Capítulo 1
+
+Había una vez un principito que vivía en un planeta pequeño.
+
+---
+
+## Capítulo 2
+
+El principito conoció a un piloto en el desierto.</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ===== Área de lectura (motores) ===== -->
     <div class="main-area hidden" id="main-area">
         <div class="module-header">
-            <button class="btn btn-secondary module-back" onclick="goBack()">← Volver</button>
             <h2 class="module-title" id="module-title">Lectura</h2>
             <div class="module-header-actions" id="module-header-actions"></div>
         </div>
@@ -149,7 +286,7 @@
                         onclick="adjustFontSize(-1)"
                         aria-label="Reducir tamaño de texto"
                         title="Texto más pequeño">A−</button>
-                <output class="font-size-value" id="font-size-display" aria-label="Tamaño actual">18</output>
+                <output class="font-size-value" id="font-size-display" aria-label="Tamaño actual">21</output>
                 <button class="btn btn-secondary speed-btn font-size-up"
                         onclick="adjustFontSize(1)"
                         aria-label="Aumentar tamaño de texto"
@@ -168,6 +305,17 @@
                         aria-label="Más palabras por bloque"
                         title="Más palabras">+</button>
             </div>
+
+            <span class="control-separator" aria-hidden="true">|</span>
+
+            <button class="btn btn-secondary btn-icon control-action"
+                    id="btn-reading-back"
+                    onclick="goBack()"
+                    aria-label="Volver"
+                    title="Volver">
+                <span aria-hidden="true">←</span>
+                <span class="sr-only">Volver</span>
+            </button>
         </div>
     </div>
 
@@ -340,19 +488,19 @@
                         </div>
                         <div class="position-grid">
                             <button class="font-opt position-option" data-pos="top" onclick="setSliderPos('top')" aria-label="Controles arriba">
-                                <span class="option-icon" aria-hidden="true">↑</span>
+                                <span class="option-icon" aria-hidden="true">⬆️</span>
                                 <span class="option-label">Arriba</span>
                             </button>
                             <button class="font-opt position-option" data-pos="bottom" onclick="setSliderPos('bottom')" aria-label="Controles abajo">
-                                <span class="option-icon" aria-hidden="true">↓</span>
+                                <span class="option-icon" aria-hidden="true">⬇️</span>
                                 <span class="option-label">Abajo</span>
                             </button>
                             <button class="font-opt position-option" data-pos="left" onclick="setSliderPos('left')" aria-label="Controles a la izquierda">
-                                <span class="option-icon" aria-hidden="true">←</span>
+                                <span class="option-icon" aria-hidden="true">⬅️</span>
                                 <span class="option-label">Izquierda</span>
                             </button>
                             <button class="font-opt position-option" data-pos="right" onclick="setSliderPos('right')" aria-label="Controles a la derecha">
-                                <span class="option-icon" aria-hidden="true">→</span>
+                                <span class="option-icon" aria-hidden="true">➡️</span>
                                 <span class="option-label">Derecha</span>
                             </button>
                         </div>
@@ -385,6 +533,10 @@
                             <span>Tamaño del texto</span>
                         </div>
                         <div class="option-grid option-grid-3">
+                            <button class="font-opt" data-size="xsmall" onclick="setFontSize('xsmall')">
+                                <span class="option-icon" style="font-size:0.8rem;" aria-hidden="true">A</span>
+                                <span class="option-label">Menor</span>
+                            </button>
                             <button class="font-opt" data-size="small" onclick="setFontSize('small')">
                                 <span class="option-icon" aria-hidden="true">A</span>
                                 <span class="option-label">Pequeño</span>
@@ -396,6 +548,10 @@
                             <button class="font-opt" data-size="large" onclick="setFontSize('large')">
                                 <span class="option-icon option-icon-large" aria-hidden="true">A</span>
                                 <span class="option-label">Grande</span>
+                            </button>
+                            <button class="font-opt" data-size="xlarge" onclick="setFontSize('xlarge')">
+                                <span class="option-icon" style="font-size:1.35rem;" aria-hidden="true">A</span>
+                                <span class="option-label">Mayor</span>
                             </button>
                         </div>
                     </div>
@@ -429,6 +585,22 @@
                             </button>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Modal: confirmar eliminación de texto ===== -->
+    <div class="modal-overlay hidden" id="delete-confirm-modal">
+        <div class="modal modal-settings">
+            <div class="modal-settings-header">
+                <h2 style="margin:0;">Eliminar texto</h2>
+            </div>
+            <div class="modal-settings-body">
+                <p id="delete-confirm-message">¿Eliminar este texto?</p>
+                <div class="option-grid option-grid-2" style="margin-top:16px;">
+                    <button class="btn btn-secondary" id="delete-confirm-cancel">Cancelar</button>
+                    <button class="btn btn-primary" id="delete-confirm-ok">Eliminar</button>
                 </div>
             </div>
         </div>

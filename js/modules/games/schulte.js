@@ -14,16 +14,10 @@ function startSchulte() {
     var header = document.createElement('div');
     header.className = 'game-screen-header';
 
-    var backBtn = document.createElement('button');
-    backBtn.className = 'btn btn-secondary game-back-btn';
-    backBtn.textContent = '← Salir';
-    backBtn.addEventListener('click', closeSchulte);
-
     var title = document.createElement('h2');
     title.className = 'game-screen-title';
     title.textContent = 'Tabla de Schulte';
 
-    header.appendChild(backBtn);
     header.appendChild(title);
     screen.appendChild(header);
 
@@ -71,7 +65,6 @@ function closeSchulte() {
         screen.innerHTML = '';
     }
     schulteCleanup();
-    goBack();
 }
 
 function schulteCleanup() {
@@ -88,16 +81,10 @@ function schulteShowInstructions(size) {
     var header = document.createElement('div');
     header.className = 'game-screen-header';
 
-    var backBtn = document.createElement('button');
-    backBtn.className = 'btn btn-secondary game-back-btn';
-    backBtn.textContent = '← Salir';
-    backBtn.addEventListener('click', closeSchulte);
-
     var title = document.createElement('h2');
     title.className = 'game-screen-title';
     title.textContent = 'Tabla de Schulte';
 
-    header.appendChild(backBtn);
     header.appendChild(title);
     screen.appendChild(header);
 

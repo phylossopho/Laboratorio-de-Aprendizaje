@@ -167,14 +167,6 @@ function showModulesScreen(cat) {
     });
 
     screen.appendChild(grid);
-
-    if (cat.id === 'reading') {
-        var addBtn = document.createElement('button');
-        addBtn.className = 'btn btn-secondary category-add';
-        addBtn.textContent = '+ Importar módulo';
-        addBtn.addEventListener('click', openModuleImporter);
-        screen.appendChild(addBtn);
-    }
 }
 
 function buildModuleCard(mod) {

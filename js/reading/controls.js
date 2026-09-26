@@ -82,9 +82,9 @@ function adjustFontSize(delta) {
 }
 
 function getNextFontSize(current, delta) {
-    var sizes = ['small', 'medium', 'large'];
+    var sizes = ['xsmall', 'small', 'medium', 'large', 'xlarge'];
     var idx = sizes.indexOf(current);
-    if (idx === -1) idx = 1;
+    if (idx === -1) idx = 2;
     var next = idx + delta;
     next = Math.max(0, Math.min(sizes.length - 1, next));
     return sizes[next];
@@ -108,8 +108,8 @@ function applyFontSize(size) {
 function updateFontSizeUI() {
     var display = document.getElementById('font-size-display');
     if (!display) return;
-    var map = { small: 16, medium: 18, large: 22 };
-    display.textContent = String(map[fontSize] || 18);
+    var map = { xsmall: 15, small: 18, medium: 21, large: 24, xlarge: 27 };
+    display.textContent = String(map[fontSize] || 21);
 }
 
 // ---------------------------------------------------------------------------

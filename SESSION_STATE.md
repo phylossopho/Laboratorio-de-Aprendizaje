@@ -117,6 +117,36 @@ Ante cualquier cambio o modificación, invitaré al usuario a auditarlo mediante
 - Botón **Empezar** del modal de instrucciones entra directo a la pantalla del juego y lanza el countdown.
 - Botón **Reiniciar** del header también usa el mismo flujo con countdown.
 
+## Control de minijuegos
+- Creado `js/games/controls.js` con estado compartido: pausa, reinicio, volumen, cronómetro y volver.
+- HTML: `#game-controls` con orden: pausa | reinicio | volumen - | volumen + | cronómetro | volver.
+- CSS: panel `fit-content`, `.game-timer-display` centrado como botón, separadores `|` entre grupos.
+- Volumen: 5 niveles (`off`, `low`, `medium`, `high`, `max`) con emojis estáticos `🔈`/`🔊`.
+- Cronómetro: display clickeable que alterna entre `⏱` y `MM:SS`; se inicia al empezar el juego.
+- Al pausar, el cronómetro se detiene; al reanudar, continúa.
+- Al terminar el juego, se detiene y resetea a `00:00`.
+- Al reiniciar o elegir "Otra vez", vuelve a `00:00` después del countdown.
+
+## Schulte
+- Eliminados botones redundantes del header (Salir, sonido, pausa, reiniciar).
+- Ahora depende del control inferior global.
+- `schulteFinish()` oculta controles, detiene y resetea el cronómetro.
+- `schulteShowCountdownAndBegin()` resetea el cronómetro antes del countdown.
+- Botón **Otra vez** usa el flujo completo con countdown.
+
+## Otros ajustes
+- `sound.js`: actualizado a 5 niveles de volumen, `playGameSound()` aplica el volumen correspondiente.
+- `navigation.js`: `goBack()` centralizado, manejo de `currentModuleId` y `currentCategoryId`.
+- `SESSION_STATE.md` y `AGENTS.md` actualizados con reglas de navegación, tarjetas BEM, flujo de lectura y control de juegos.
+
+## Countdown
+- Animación `countdownPulse` invertida: de grande a chico, desvaneciéndose.
+- Duración sincronizada en **1s** por número, tanto en CSS como en `engine.js`.
+- Reinicio de animación con `animation: none` + reflow, sin depender solo de clases.
+- Flujo en Schulte: pantalla del juego → countdown 3-2-1 → tablero listo.
+- Botón **Empezar** del modal de instrucciones entra directo a la pantalla del juego y lanza el countdown.
+- Botón **Reiniciar** del header también usa el mismo flujo con countdown.
+
 ## Próximos pasos sugeridos
 1. Ajustes finos de tipografía/espaciado del modal según feedback visual.
 2. Soportar arrastrar y soltar archivos en el modal.

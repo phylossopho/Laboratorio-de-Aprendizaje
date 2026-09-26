@@ -106,6 +106,15 @@ DECISIONES CERRADAS
 - Flujo de lectura: el picker de texto solo muestra la biblioteca, sin ingreso manual.
 - Juegos/modulos: al cerrar, usar `goBack()` para volver a la pantalla anterior.
 - Debug: FAB flotante copiador, activado por defecto en pruebas, ocultable con `Ctrl+Shift+D` o `hidden`.
+- Navegacion: usar `goBack()` como unico boton de retroceso general.
+- Tarjetas: usar siempre el componente BEM existente `.card` + `.card-container`.
+- Flujo de lectura: el picker de texto solo muestra la biblioteca, sin ingreso manual.
+- Juegos/modulos: al cerrar, usar `goBack()` para volver a la pantalla anterior.
+- Control de juegos: barra inferior con pausa, reinicio, volumen (-/+), cronómetro clickeable y volver.
+- Cronómetro: se inicia después del countdown, se pausa al pausar el juego, se detiene y resetea al terminar.
+- Volumen: 5 niveles (off, low, medium, high, max) con emojis estáticos.
+- Countdown: animación 3-2-1 de 1s por número, de grande a chico y desvaneciéndose.
+- Schulte: pantalla de instrucciones → countdown → tablero; sin botones redundantes en el header.
 
 ACCESO A GITHUB
 
